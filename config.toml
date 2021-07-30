@@ -8,7 +8,7 @@ pygmentsstyle = "monokai"
 pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
 
-paginate=3 # articles per page
+paginate=5 # articles per page
 
 [params]
 	mode="light" # color-mode → light,dark or auto
@@ -21,6 +21,11 @@ paginate=3 # articles per page
 name = "GitHub"
 icon = "github"
 url = "https://github.com/teejas"
+
+[[params.social]]
+name = "LinkedIn"
+icon = "linkedin"
+url = "https://www.linkedin.com/in/tejas-siripurapu-7b7b81105/"
 
 [[params.social]]
 name = "Twitter"
