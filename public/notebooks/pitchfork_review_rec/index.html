@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Recommendations Based on Pitchfork Written Reviews - Tejas Siripurapu</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Introduction Setup First, let&rsquo;s make sure we&rsquo;re in the correct working directory and have all the necessary packages imported. We&rsquo;ll also read in the dataset&ndash;It&rsquo;s been cleaned beforehand on my local machine; a simple process to get it into a csv rather than the SQLLite db I had downloaded. Finally, we&rsquo;ll set a flag to indicate which vectorizer we are using in the interest of testing both and comparing (A/B testing)." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Recommendations Based on Pitchfork Written Reviews" />
+<meta property="og:description" content="Introduction Setup First, let&rsquo;s make sure we&rsquo;re in the correct working directory and have all the necessary packages imported. We&rsquo;ll also read in the dataset&ndash;It&rsquo;s been cleaned beforehand on my local machine; a simple process to get it into a csv rather than the SQLLite db I had downloaded. Finally, we&rsquo;ll set a flag to indicate which vectorizer we are using in the interest of testing both and comparing (A/B testing)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://teejas.github.io/notebooks/pitchfork_review_rec/" /><meta property="article:section" content="notebooks" />
+<meta property="article:published_time" content="2020-07-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-07-23T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Recommendations Based on Pitchfork Written Reviews"/>
+<meta name="twitter:description" content="Introduction Setup First, let&rsquo;s make sure we&rsquo;re in the correct working directory and have all the necessary packages imported. We&rsquo;ll also read in the dataset&ndash;It&rsquo;s been cleaned beforehand on my local machine; a simple process to get it into a csv rather than the SQLLite db I had downloaded. Finally, we&rsquo;ll set a flag to indicate which vectorizer we are using in the interest of testing both and comparing (A/B testing)."/>
+<script src="https://teejas.github.io/js/feather.min.js"></script>
+	
+	
+        <link href="https://teejas.github.io/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://teejas.github.io/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://teejas.github.io/">Tejas Siripurapu</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/posts">All Posts</a>
+		
+		<a href="/notebooks">Notebooks</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Recommendations Based on Pitchfork Written Reviews</h1>
+			<div class="meta">Posted on Jul 23, 2020</div>
+		</div>
+		
+
+		<section class="body">
+			<h1 id="introduction">Introduction</h1>
+<h2 id="setup">Setup</h2>
+<p>First, let&rsquo;s make sure we&rsquo;re in the correct working directory and have all the necessary packages imported.
+We&rsquo;ll also read in the dataset&ndash;It&rsquo;s been cleaned beforehand on my local machine; a simple process to get it into a csv rather than the SQLLite db I had downloaded.
+Finally, we&rsquo;ll set a flag to indicate which vectorizer we are using in the interest of testing both and comparing (A/B testing).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%</span>cd <span style="color:#e6db74">&#34;drive/My Drive/Colab Notebooks&#34;</span>
+<span style="color:#960050;background-color:#1e0010">!</span>pwd
+<span style="color:#960050;background-color:#1e0010">!</span>pip3 install sklearn pandas rake_nltk
+</code></pre></div><pre><code>/Users/tejassiripurapu/Notebooks
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: sklearn in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (0.0)
+Requirement already satisfied: pandas in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (1.0.5)
+Requirement already satisfied: rake_nltk in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (1.0.4)
+Requirement already satisfied: scikit-learn in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from sklearn) (0.23.1)
+Requirement already satisfied: python-dateutil&gt;=2.6.1 in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from pandas) (2.8.1)
+Requirement already satisfied: pytz&gt;=2017.2 in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from pandas) (2020.1)
+Requirement already satisfied: numpy&gt;=1.13.3 in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from pandas) (1.18.5)
+Requirement already satisfied: nltk in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from rake_nltk) (3.5)
+Requirement already satisfied: scipy&gt;=0.19.1 in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from scikit-learn-&gt;sklearn) (1.4.1)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from scikit-learn-&gt;sklearn) (2.1.0)
+Requirement already satisfied: joblib&gt;=0.11 in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from scikit-learn-&gt;sklearn) (0.15.1)
+Requirement already satisfied: six&gt;=1.5 in /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/site-packages (from python-dateutil&gt;=2.6.1-&gt;pandas) (1.12.0)
+Requirement already satisfied: click in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from nltk-&gt;rake_nltk) (7.1.2)
+Requirement already satisfied: tqdm in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from nltk-&gt;rake_nltk) (4.47.0)
+Requirement already satisfied: regex in /Users/tejassiripurapu/Library/Python/3.7/lib/python/site-packages (from nltk-&gt;rake_nltk) (2020.6.8)
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+<span style="color:#f92672">from</span> rake_nltk <span style="color:#f92672">import</span> Rake
+<span style="color:#f92672">from</span> sklearn.metrics.pairwise <span style="color:#f92672">import</span> cosine_similarity, euclidean_distances
+<span style="color:#f92672">from</span> sklearn.feature_extraction.text <span style="color:#f92672">import</span> CountVectorizer
+<span style="color:#f92672">from</span> sklearn.feature_extraction.text <span style="color:#f92672">import</span> TfidfVectorizer
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;data/pitchfork_reviews_cleaned.csv&#34;</span>)
+print(df<span style="color:#f92672">.</span>head())
+
+tfidf <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span> <span style="color:#75715e"># if True: use TfidfVectorizer, else: CountVectorizer</span>
+</code></pre></div><pre><code>             artist                                       album       genre  \
+0       David Byrne  “…The Best Live Show of All Time” — NME EP        Rock   
+1         DJ Healer           Lost Lovesongs / Lostsongs Vol. 2  Electronic   
+2       Jorge Velez                                 Roman Birds  Electronic   
+3           Chandra                          Transportation EPs        Rock   
+4  The Chainsmokers                                    Sick Boy  Electronic   
+
+   score             author                                             review  
+0    5.5          Andy Beta  Viva Brother, Terris, Mansun, the Twang, Joe L...  
+1    6.2        Chal Ravens  The Prince of Denmark—that is, the proper prin...  
+2    7.9   Philip Sherburne  Jorge Velez has long been prolific, but that’s...  
+3    7.8          Andy Beta  When the Avalanches returned in 2016 after an ...  
+4    3.1  Larry Fitzmaurice  We’re going to be stuck with the Chainsmokers ...  
+</code></pre>
+<h2 id="a-little-preprocessing">A Little Preprocessing</h2>
+<p>Now that our data is loaded into a dataframe, let&rsquo;s separate out the written review and use the album title as the index.</p>
+<p>NOTE: The set we&rsquo;re working with may be too big to handle atm (session is crashing when trying to vectorize). Randomly sample 8000 reviews to begin with</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">working_df <span style="color:#f92672">=</span> df[[<span style="color:#e6db74">&#39;artist&#39;</span>, <span style="color:#e6db74">&#39;album&#39;</span>, <span style="color:#e6db74">&#39;review&#39;</span>]]<span style="color:#f92672">.</span>copy()
+<span style="color:#75715e"># working_df.set_index(&#39;album&#39;, inplace=True)</span>
+print(working_df<span style="color:#f92672">.</span>head())
+print(len(working_df))
+working_df<span style="color:#f92672">.</span>dropna(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;any&#39;</span>)
+print(len(working_df)) <span style="color:#75715e"># How many na rows were there? 5 (which ones?)</span>
+sample_df <span style="color:#f92672">=</span> working_df<span style="color:#f92672">.</span>sample(<span style="color:#ae81ff">8000</span>)
+</code></pre></div><pre><code>             artist                                       album  \
+0       David Byrne  “…The Best Live Show of All Time” — NME EP   
+1         DJ Healer           Lost Lovesongs / Lostsongs Vol. 2   
+2       Jorge Velez                                 Roman Birds   
+3           Chandra                          Transportation EPs   
+4  The Chainsmokers                                    Sick Boy   
+
+                                              review  
+0  Viva Brother, Terris, Mansun, the Twang, Joe L...  
+1  The Prince of Denmark—that is, the proper prin...  
+2  Jorge Velez has long been prolific, but that’s...  
+3  When the Avalanches returned in 2016 after an ...  
+4  We’re going to be stuck with the Chainsmokers ...  
+20873
+20867
+</code></pre>
+<h2 id="keyword-extraction">Keyword Extraction</h2>
+<p>Use the nltk Rake function (from rake-nltk Python package) to extract important keywords from the reviews. This improves the vectorization by removing punctuation and allows for larger batch size by decreasing size of corpus and individual docs (reviews).</p>
+<p>Furthermore, as a new Rake object is instantiated for every row in the dataframe, I&rsquo;ve added the artist name as a stopword when extracting keywords for any given review of an artist. This is because the artist name is likely used frequently in a review of their music, so our similarity scores (and therefore recommendations) will be skewed towards albums by that artist. We want more variety to the recommendation, a user has likely already heard of other albums by the same artist&ndash;or can simply Google it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">artists <span style="color:#f92672">=</span> sample_df[<span style="color:#e6db74">&#39;artist&#39;</span>]
+
+sample_df[<span style="color:#e6db74">&#39;keywords&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+
+<span style="color:#66d9ef">for</span> idx, row <span style="color:#f92672">in</span> sample_df<span style="color:#f92672">.</span>iterrows():
+  r <span style="color:#f92672">=</span> Rake(stopwords<span style="color:#f92672">=</span>artists[idx])
+  r<span style="color:#f92672">.</span>extract_keywords_from_text(row[<span style="color:#e6db74">&#39;review&#39;</span>])
+  keywords <span style="color:#f92672">=</span> list(r<span style="color:#f92672">.</span>get_word_degrees()<span style="color:#f92672">.</span>keys())
+  row[<span style="color:#e6db74">&#39;keywords&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">.</span>join(keywords)
+
+corpus <span style="color:#f92672">=</span> sample_df[<span style="color:#e6db74">&#39;keywords&#39;</span>]
+</code></pre></div><h2 id="vectorization">Vectorization</h2>
+<p>The working dataframe is set up containing album titles (as index) and the full written review. We&rsquo;re going to vectorize that review column using Tfidf. This will give us a vector of word frequencies across the whole corpus. Think of this as mapping every review onto an n-dimensional space, where n is the number of distinct words in the corpus. Then we can measure similarity between the vectors using cosine similarity.
+Admittedly, Tfidf is a little different as it measures frequency relative to how often that word appears in different documents, but this is a good way to conceptualize.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> tfidf:
+  tv <span style="color:#f92672">=</span> TfidfVectorizer()
+  tv_counts <span style="color:#f92672">=</span> tv<span style="color:#f92672">.</span>fit_transform(corpus)
+  <span style="color:#75715e"># tv_counts = tv.transform(df[&#39;review&#39;])</span>
+  tv_counts <span style="color:#f92672">=</span> tv_counts<span style="color:#f92672">.</span>toarray()
+  print(len(tv_counts[<span style="color:#ae81ff">0</span>])) <span style="color:#75715e"># How many words are being counted?</span>
+</code></pre></div><pre><code>89524
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> tfidf:
+    cv <span style="color:#f92672">=</span> CountVectorizer()
+    cv_counts <span style="color:#f92672">=</span> cv<span style="color:#f92672">.</span>fit_transform(corpus)
+    cv_counts <span style="color:#f92672">=</span> cv_counts<span style="color:#f92672">.</span>toarray()
+    print(len(cv_counts[<span style="color:#ae81ff">0</span>]))
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">labels <span style="color:#f92672">=</span> []
+albums <span style="color:#f92672">=</span> sample_df[<span style="color:#e6db74">&#39;album&#39;</span>]
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(tv_counts[<span style="color:#ae81ff">0</span>])):
+  labels<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;word&#34;</span> <span style="color:#f92672">+</span> str(i))
+counts_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(tv_counts, columns<span style="color:#f92672">=</span>labels, index<span style="color:#f92672">=</span>albums)
+print(counts_df<span style="color:#f92672">.</span>head())
+</code></pre></div><pre><code>                                 word0  word1  word2  word3  word4  word5  \
+album                                                                       
+Pimps Don't Pay Taxes              0.0    0.0    0.0    0.0    0.0    0.0   
+Exmilitary                         0.0    0.0    0.0    0.0    0.0    0.0   
+Like Someone In Love EP            0.0    0.0    0.0    0.0    0.0    0.0   
+Expressions (2012 A.U.)            0.0    0.0    0.0    0.0    0.0    0.0   
+Songs from the Hermetic Theatre    0.0    0.0    0.0    0.0    0.0    0.0   
+
+                                 word6  word7  word8  word9  ...  word89514  \
+album                                                        ...              
+Pimps Don't Pay Taxes              0.0    0.0    0.0    0.0  ...        0.0   
+Exmilitary                         0.0    0.0    0.0    0.0  ...        0.0   
+Like Someone In Love EP            0.0    0.0    0.0    0.0  ...        0.0   
+Expressions (2012 A.U.)            0.0    0.0    0.0    0.0  ...        0.0   
+Songs from the Hermetic Theatre    0.0    0.0    0.0    0.0  ...        0.0   
+
+                                 word89515  word89516  word89517  word89518  \
+album                                                                         
+Pimps Don't Pay Taxes                  0.0        0.0        0.0        0.0   
+Exmilitary                             0.0        0.0        0.0        0.0   
+Like Someone In Love EP                0.0        0.0        0.0        0.0   
+Expressions (2012 A.U.)                0.0        0.0        0.0        0.0   
+Songs from the Hermetic Theatre        0.0        0.0        0.0        0.0   
+
+                                 word89519  word89520  word89521  word89522  \
+album                                                                         
+Pimps Don't Pay Taxes                  0.0        0.0        0.0        0.0   
+Exmilitary                             0.0        0.0        0.0        0.0   
+Like Someone In Love EP                0.0        0.0        0.0        0.0   
+Expressions (2012 A.U.)                0.0        0.0        0.0        0.0   
+Songs from the Hermetic Theatre        0.0        0.0        0.0        0.0   
+
+                                 word89523  
+album                                       
+Pimps Don't Pay Taxes                  0.0  
+Exmilitary                             0.0  
+Like Someone In Love EP                0.0  
+Expressions (2012 A.U.)                0.0  
+Songs from the Hermetic Theatre        0.0  
+
+[5 rows x 89524 columns]
+</code></pre>
+<h2 id="cosine-similarity">(Cosine) Similarity</h2>
+<p>Now we have a dataframe containing the word frequencies and we can compare each album using cosine similarity. Doing this in a pairwise manner (across every row in the dataframe) allows us to measure the similarity between two albums based on their review.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">similarity <span style="color:#f92672">=</span> cosine_similarity(counts_df)
+print(similarity[:<span style="color:#ae81ff">5</span>])
+</code></pre></div><p>God bless, everything ran and nothing has crashed yet (hopefully). Now let&rsquo;s make sense of the similarity matrix. Each album gets a row in the matrix (i.e. album[0] has a corresponding vector at similarity[0]).</p>
+<h2 id="recommendation-and-user-testing">Recommendation and User Testing</h2>
+<p>Every value in the album vector represents how similar that album is with another. So for album[i], there is a corresponding album vector such that the value at index j in that vector is showing how similar album[i] is with album[j]. If i == j we should see a value of 1, meaning that the two albums are exactly alike (as they should be, it&rsquo;s the same album).</p>
+<p>So to find recommendations for a given album, sort the corresponding similarity vector (while maintaining the index). Using the index of the highest value which isn&rsquo;t 1 will reference the album most similar to the given album based on the written Pitchfork review.</p>
+<p>The process to recommend is as follows: Given an input album title -&gt; get review corresponding to album, vectorize using Tfidf, measure similarity against sample, return top 5 (or 10?) most similar albums.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">working_df<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;album&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">search_album <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;My Beautiful Dark Twisted Fantasy&#34;</span>
+review <span style="color:#f92672">=</span> working_df<span style="color:#f92672">.</span>loc[search_album][<span style="color:#e6db74">&#39;review&#39;</span>]
+
+vec <span style="color:#f92672">=</span> tv<span style="color:#f92672">.</span>transform([review])<span style="color:#f92672">.</span>toarray()
+print(len(vec[<span style="color:#ae81ff">0</span>]))
+search_sim <span style="color:#f92672">=</span> cosine_similarity(vec, counts_df)
+print(search_sim)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">search_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(search_sim[<span style="color:#ae81ff">0</span>])
+top_5 <span style="color:#f92672">=</span> search_df<span style="color:#f92672">.</span>nlargest(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">0</span>)
+<span style="color:#75715e"># print(top_5.index)</span>
+<span style="color:#66d9ef">for</span> idx <span style="color:#f92672">in</span> top_5<span style="color:#f92672">.</span>index:
+  <span style="color:#75715e"># print(idx)</span>
+  print(albums<span style="color:#f92672">.</span>iloc[idx])
+</code></pre></div>
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/data-science">data science</a></li>
+					
+					<li><a href="/tags/data-analytics">data analytics</a></li>
+					
+					<li><a href="/tags/music-discovery">music discovery</a></li>
+					
+					<li><a href="/tags/recommender-systems">recommender systems</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/teejas" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="https://twitter.com/ojsimpsome/" title="Twitter"><i data-feather="twitter"></i></a>|<a class="soc" href="https://www.instagram.com/tejas.siripurapu/" title="Instagram"><i data-feather="instagram"></i></a>|⚡️
+	2021  © Athul |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+</footer>
+
+
+<script>
+      feather.replace()
+</script></div>
+    </body>
+</html>

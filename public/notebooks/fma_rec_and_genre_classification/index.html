@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Genre Classification and Recommendations Using the FMA Dataset - Tejas Siripurapu</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Introduction Working with the FMA dataset which contains audio features and free music snippets on 100k&#43; tracks. This is in the interest of working towards my own MIR using deep learning to extract audio features from audio signals (probably using GTZAN). The data comes from the FMA dataset. Let&rsquo;s start by training a model to do feature extraction given an MFCC (derived from an audio signal). We can use the Echonest dataset which comes with audio features already extracted and use the FMA set with librosa to generate the MFCC." />
+	<meta property="og:image" content=""/>
+	<meta property="og:title" content="Genre Classification and Recommendations Using the FMA Dataset" />
+<meta property="og:description" content="Introduction Working with the FMA dataset which contains audio features and free music snippets on 100k&#43; tracks. This is in the interest of working towards my own MIR using deep learning to extract audio features from audio signals (probably using GTZAN). The data comes from the FMA dataset. Let&rsquo;s start by training a model to do feature extraction given an MFCC (derived from an audio signal). We can use the Echonest dataset which comes with audio features already extracted and use the FMA set with librosa to generate the MFCC." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://teejas.github.io/notebooks/fma_rec_and_genre_classification/" /><meta property="article:section" content="notebooks" />
+<meta property="article:published_time" content="2020-07-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-07-23T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Genre Classification and Recommendations Using the FMA Dataset"/>
+<meta name="twitter:description" content="Introduction Working with the FMA dataset which contains audio features and free music snippets on 100k&#43; tracks. This is in the interest of working towards my own MIR using deep learning to extract audio features from audio signals (probably using GTZAN). The data comes from the FMA dataset. Let&rsquo;s start by training a model to do feature extraction given an MFCC (derived from an audio signal). We can use the Echonest dataset which comes with audio features already extracted and use the FMA set with librosa to generate the MFCC."/>
+<script src="https://teejas.github.io/js/feather.min.js"></script>
+	
+	
+        <link href="https://teejas.github.io/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css" rel="stylesheet">
+	
+
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="https://teejas.github.io/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css" />
+	
+	
+</head>
+<body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://teejas.github.io/">Tejas Siripurapu</a>
+	</div>
+	<nav>
+		
+		<a href="/">Home</a>
+		
+		<a href="/posts">All Posts</a>
+		
+		<a href="/notebooks">Notebooks</a>
+		
+		<a href="/about">About</a>
+		
+		<a href="/tags">Tags</a>
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">Genre Classification and Recommendations Using the FMA Dataset</h1>
+			<div class="meta">Posted on Jul 23, 2020</div>
+		</div>
+		
+
+		<section class="body">
+			<h1 id="introduction">Introduction</h1>
+<p>Working with the FMA dataset which contains audio features and free music snippets on 100k+ tracks. This is in the interest of working towards my own MIR using deep learning to extract audio features from audio signals (probably using GTZAN).
+The data comes from the <a href="https://github.com/mdeff/fma">FMA dataset</a>. Let&rsquo;s start by training a model to do feature extraction given an MFCC (derived from an audio signal). We can use the Echonest dataset which comes with audio features already extracted and use the FMA set with librosa to generate the MFCC.</p>
+<h2 id="what-model">What Model?</h2>
+<p>Is a CNN really the best to use for a regression model? <a href="https://stats.stackexchange.com/questions/335836/cnn-architectures-for-regression">Community</a> seems to say no, so what&rsquo;s the alternative? We could just change the scope of the problem to a classification one, where instead of extracting audio features like acousticness (on a scale of 0-1) we try to classify by genre. A CNN for genre classification is an interesting idea and maybe a good starting point, but for the time being I&rsquo;ll read more.</p>
+<h3 id="brainstorming">Brainstorming</h3>
+<ul>
+<li>A two-layer network implementation: the first being a genre classifier, the second being a regression on a set of features</li>
+<li>Adversarial learning technique to encode MFCC as a set of features as seen <a href="http://cs229.stanford.edu/proj2017/final-reports/5218770.pdf">here</a></li>
+<li>User implementation of the model: Given a playlist of liked tracks, train a simple logistic regression to classify new tracks as &ldquo;Like&rdquo; or &ldquo;Dislike&rdquo; using audio features</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>We first need to import the necessary packages and load in the dataset. We&rsquo;ll use pandas&ndash;cause when have we not&ndash;and sklearn for the similarity metrics.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+<span style="color:#f92672">from</span> sklearn.metrics.pairwise <span style="color:#f92672">import</span> cosine_similarity, euclidean_distances
+
+filepath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;data/echonest.csv&#34;</span>
+</code></pre></div><p>In this scenario we&rsquo;ll use both Euclidean distance and cosine similarity. I have my hesitations with using just cosine similarity here because we aren&rsquo;t dealing with documents. I need to understand the data a little better before I decide.</p>
+<p>In the Pitchfork review recommender, we were using keywords from the album reviews to compare similarity. Longer reviews would be mapped to vectors with large word frequency values, due to those words appearing more often. But a shorter review with relatively the same differences in frequencies has lower frequency values leading to a greater Euclidean distance between the two despite being similar. Therefore, measuring the angle between the vectors is a better measure of similarity.</p>
+<p>But in this case we have the features already provided for us, so I&rsquo;ll have to understand how the data is scaled and all before deciding on a metric for comparisons.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(filepath, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, header<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>])
+print(df[<span style="color:#e6db74">&#39;echonest&#39;</span>, <span style="color:#e6db74">&#39;audio_features&#39;</span>]<span style="color:#f92672">.</span>head())
+</code></pre></div><pre><code>          acousticness  danceability    energy  instrumentalness  liveness  \
+track_id                                                                     
+2             0.416675      0.675894  0.634476          0.010628  0.177647   
+3             0.374408      0.528643  0.817461          0.001851  0.105880   
+5             0.043567      0.745566  0.701470          0.000697  0.373143   
+10            0.951670      0.658179  0.924525          0.965427  0.115474   
+134           0.452217      0.513238  0.560410          0.019443  0.096567   
+
+          speechiness    tempo   valence  
+track_id                                  
+2            0.159310  165.922  0.576661  
+3            0.461818  126.957  0.269240  
+5            0.124595  100.260  0.621661  
+10           0.032985  111.562  0.963590  
+134          0.525519  114.290  0.894072  
+</code></pre>
+<h2 id="understanding-the-dataset">Understanding the Dataset</h2>
+<p>My initial impression is that this dataset is <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/advanced.html">multi-tiered</a>, or a dataset made up of clearly defined subsets. There is the umbrella/master set (echonest), sub-categories of which are the different types of data features offered (i.e. audio_features, metadata, social_features, etc), these sub-categories in turn have sub-categories which are the columns of the dataframe. The columns are each a different feature within that type of data feature (i.e. acousticness and danceability under audio_features).</p>
+<p>So there already exists a nice hierarchical structure to the data. We can leverage this to quickly test and compare the results of measuring similarity between tracks based on different features and types of features. One objective is to have a good understanding of the differences in measuring similarity using different sets of features.</p>
+<p>Let&rsquo;s explore the data a little. Gotta figure out what all the types of features are and the features which comprise them. I&rsquo;m mainly interested in the audio_features as a jumping off point to train the model. Also need some genre tags to serve as targets in the interest of training a genre classifier.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">audio_features_df <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#39;echonest&#39;</span>,<span style="color:#e6db74">&#39;audio_features&#39;</span>]
+print(audio_features_df<span style="color:#f92672">.</span>columns<span style="color:#f92672">.</span>values)
+</code></pre></div><pre><code>['acousticness' 'danceability' 'energy' 'instrumentalness' 'liveness'
+ 'speechiness' 'tempo' 'valence']
+</code></pre>
+<h1 id="genre-classification">Genre Classification</h1>
+<p>As a way of exploring the dataset through deep learning, and an excuse to use CNN&rsquo;s for music analysis, let&rsquo;s build a genre classifier in TensorFlow which implements a CNN. We&rsquo;ll use librosa to read in the MFCC&rsquo;s as numpy arrays, then use the genres provided in the FMA dataset to build our training/testing set. Split 70/30 and we can start training, possibly using the Colab GPU runtime environment.</p>
+<p>The data is going to come from the Full Music Archive which offers free, legal music for download with CC licensing. I can start with the small subset which is roughly 8gb and GTZAN-like. As the preeminent dataset for genre classification it seems proper to start with GTZAN.</p>
+<h2 id="setup-fma-data-repository">Setup FMA data repository</h2>
+<p>Clone the FMA git repository and download the fma_small and fma_metadata for genre recognition. Genre tags and MFCC features are in fma_metadata. Actual mp3 files for song snippets are in fma_small</p>
+<p>Let&rsquo;s download and load in the fma_metadata and fma_small subset of the full FMA dataset. Then we can do some exploratory analytics to view some of the tracks as MFCC&rsquo;s (using librosa) and get the genre labels.</p>
+<p><strong>Note</strong>: path to data folder is: ./fma</p>
+<h3 id="clone-fma-repository">Clone FMA repository</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#960050;background-color:#1e0010">!</span>ls
+<span style="color:#960050;background-color:#1e0010">!</span>pwd
+</code></pre></div><pre><code>sample_data
+/content
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#960050;background-color:#1e0010">!</span>git clone https:<span style="color:#f92672">//</span>github<span style="color:#f92672">.</span>com<span style="color:#f92672">/</span>mdeff<span style="color:#f92672">/</span>fma<span style="color:#f92672">.</span>git
+<span style="color:#f92672">%</span>cd fma
+</code></pre></div><pre><code>Cloning into 'fma'...
+remote: Enumerating objects: 218, done.[K
+remote: Counting objects: 100% (218/218), done.[K
+remote: Compressing objects: 100% (116/116), done.[K
+remote: Total 779 (delta 110), reused 194 (delta 96), pack-reused 561[K
+Receiving objects: 100% (779/779), 4.11 MiB | 3.63 MiB/s, done.
+Resolving deltas: 100% (495/495), done.
+/content/fma
+</code></pre>
+<h3 id="install-requirements-using-pip">Install requirements using pip</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%</span>cd fma
+</code></pre></div><pre><code>[Errno 2] No such file or directory: 'fma'
+/content/fma
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#960050;background-color:#1e0010">!</span>pwd
+<span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">-</span>q <span style="color:#f92672">--</span>upgrade pip setuptools wheel
+<span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">-</span>q numpy  <span style="color:#75715e"># workaround resampy&#39;s bogus setup.py</span>
+<span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">-</span>q <span style="color:#f92672">-</span>r requirements<span style="color:#f92672">.</span>txt
+</code></pre></div><pre><code>/content/fma
+</code></pre>
+<h3 id="install-fma_small-and-fma_metadata-and-unzip">Install fma_small and fma_metadata and unzip</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%</span>cd data
+<span style="color:#960050;background-color:#1e0010">!</span>curl <span style="color:#f92672">-</span>O https:<span style="color:#f92672">//</span>os<span style="color:#f92672">.</span>unil<span style="color:#f92672">.</span>cloud<span style="color:#f92672">.</span>switch<span style="color:#f92672">.</span>ch<span style="color:#f92672">/</span>fma<span style="color:#f92672">/</span>fma_small<span style="color:#f92672">.</span>zip
+<span style="color:#960050;background-color:#1e0010">!</span>curl <span style="color:#f92672">-</span>O https:<span style="color:#f92672">//</span>os<span style="color:#f92672">.</span>unil<span style="color:#f92672">.</span>cloud<span style="color:#f92672">.</span>switch<span style="color:#f92672">.</span>ch<span style="color:#f92672">/</span>fma<span style="color:#f92672">/</span>fma_metadata<span style="color:#f92672">.</span>zip
+</code></pre></div><pre><code>/content/fma/data
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 7323M  100 7323M    0     0  10.6M      0  0:11:26  0:11:26 --:--:-- 10.7M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  341M  100  341M    0     0  9515k      0  0:00:36  0:00:36 --:--:-- 11.1M
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#960050;background-color:#1e0010">!</span>echo <span style="color:#e6db74">&#34;f0df49ffe5f2a6008d7dc83c6915b31835dfe733  fma_metadata.zip&#34;</span> <span style="color:#f92672">|</span> sha1sum <span style="color:#f92672">-</span>c <span style="color:#f92672">-</span>
+<span style="color:#960050;background-color:#1e0010">!</span>echo <span style="color:#e6db74">&#34;ade154f733639d52e35e32f5593efe5be76c6d70  fma_small.zip&#34;</span>    <span style="color:#f92672">|</span> sha1sum <span style="color:#f92672">-</span>c <span style="color:#f92672">-</span>
+<span style="color:#960050;background-color:#1e0010">!</span>unzip fma_metadata<span style="color:#f92672">.</span>zip
+<span style="color:#960050;background-color:#1e0010">!</span>unzip <span style="color:#f92672">-</span>q fma_small<span style="color:#f92672">.</span>zip
+<span style="color:#f92672">%</span>cd <span style="color:#f92672">..</span>
+</code></pre></div><pre><code>fma_metadata.zip: OK
+fma_small.zip: OK
+Archive:  fma_metadata.zip
+ bunzipping: fma_metadata/README.txt  
+ bunzipping: fma_metadata/checksums  
+ bunzipping: fma_metadata/not_found.pickle  
+ bunzipping: fma_metadata/raw_genres.csv  
+ bunzipping: fma_metadata/raw_albums.csv  
+ bunzipping: fma_metadata/raw_artists.csv  
+ bunzipping: fma_metadata/raw_tracks.csv  
+ bunzipping: fma_metadata/tracks.csv  
+ bunzipping: fma_metadata/genres.csv  
+ bunzipping: fma_metadata/raw_echonest.csv  
+ bunzipping: fma_metadata/echonest.csv  
+ bunzipping: fma_metadata/features.csv  
+/content/fma
+</code></pre>
+<h3 id="create-some-util-functions">Create some util functions</h3>
+<p>Create the <code>load()</code> and <code>get_audio_path()</code> util functions from the fma repo. They can&rsquo;t be loaded into a Colab environment from utils.py due to some syntax error&ndash;probably because of a Python version error.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load</span>(filepath):
+
+    filename <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>basename(filepath)
+
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;features&#39;</span> <span style="color:#f92672">in</span> filename:
+        <span style="color:#66d9ef">return</span> pd<span style="color:#f92672">.</span>read_csv(filepath, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, header<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>])
+
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;echonest&#39;</span> <span style="color:#f92672">in</span> filename:
+        <span style="color:#66d9ef">return</span> pd<span style="color:#f92672">.</span>read_csv(filepath, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, header<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>])
+
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;genres&#39;</span> <span style="color:#f92672">in</span> filename:
+        <span style="color:#66d9ef">return</span> pd<span style="color:#f92672">.</span>read_csv(filepath, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;tracks&#39;</span> <span style="color:#f92672">in</span> filename:
+        tracks <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(filepath, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, header<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>])
+
+        COLUMNS <span style="color:#f92672">=</span> [(<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;tags&#39;</span>), (<span style="color:#e6db74">&#39;album&#39;</span>, <span style="color:#e6db74">&#39;tags&#39;</span>), (<span style="color:#e6db74">&#39;artist&#39;</span>, <span style="color:#e6db74">&#39;tags&#39;</span>),
+                   (<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;genres&#39;</span>), (<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;genres_all&#39;</span>)]
+        <span style="color:#66d9ef">for</span> column <span style="color:#f92672">in</span> COLUMNS:
+            tracks[column] <span style="color:#f92672">=</span> tracks[column]<span style="color:#f92672">.</span>map(ast<span style="color:#f92672">.</span>literal_eval)
+
+        COLUMNS <span style="color:#f92672">=</span> [(<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;date_created&#39;</span>), (<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;date_recorded&#39;</span>),
+                   (<span style="color:#e6db74">&#39;album&#39;</span>, <span style="color:#e6db74">&#39;date_created&#39;</span>), (<span style="color:#e6db74">&#39;album&#39;</span>, <span style="color:#e6db74">&#39;date_released&#39;</span>),
+                   (<span style="color:#e6db74">&#39;artist&#39;</span>, <span style="color:#e6db74">&#39;date_created&#39;</span>), (<span style="color:#e6db74">&#39;artist&#39;</span>, <span style="color:#e6db74">&#39;active_year_begin&#39;</span>),
+                   (<span style="color:#e6db74">&#39;artist&#39;</span>, <span style="color:#e6db74">&#39;active_year_end&#39;</span>)]
+        <span style="color:#66d9ef">for</span> column <span style="color:#f92672">in</span> COLUMNS:
+            tracks[column] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_datetime(tracks[column])
+
+        SUBSETS <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;small&#39;</span>, <span style="color:#e6db74">&#39;medium&#39;</span>, <span style="color:#e6db74">&#39;large&#39;</span>)
+        <span style="color:#66d9ef">try</span>:
+            tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;subset&#39;</span>] <span style="color:#f92672">=</span> tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;subset&#39;</span>]<span style="color:#f92672">.</span>astype(
+                    <span style="color:#e6db74">&#39;category&#39;</span>, categories<span style="color:#f92672">=</span>SUBSETS, ordered<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span>:
+            <span style="color:#75715e"># the categories and ordered arguments were removed in pandas 0.25</span>
+            tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;subset&#39;</span>] <span style="color:#f92672">=</span> tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;subset&#39;</span>]<span style="color:#f92672">.</span>astype(
+                     pd<span style="color:#f92672">.</span>CategoricalDtype(categories<span style="color:#f92672">=</span>SUBSETS, ordered<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>))
+
+        COLUMNS <span style="color:#f92672">=</span> [(<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;genre_top&#39;</span>), (<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;license&#39;</span>),
+                   (<span style="color:#e6db74">&#39;album&#39;</span>, <span style="color:#e6db74">&#39;type&#39;</span>), (<span style="color:#e6db74">&#39;album&#39;</span>, <span style="color:#e6db74">&#39;information&#39;</span>),
+                   (<span style="color:#e6db74">&#39;artist&#39;</span>, <span style="color:#e6db74">&#39;bio&#39;</span>)]
+        <span style="color:#66d9ef">for</span> column <span style="color:#f92672">in</span> COLUMNS:
+            tracks[column] <span style="color:#f92672">=</span> tracks[column]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;category&#39;</span>)
+
+        <span style="color:#66d9ef">return</span> tracks
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_audio_path</span>(audio_dir, track_id):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Return the path to the mp3 given the directory where the audio is stored
+</span><span style="color:#e6db74">    and the track ID.
+</span><span style="color:#e6db74">    Examples
+</span><span style="color:#e6db74">    --------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; import utils
+</span><span style="color:#e6db74">    &gt;&gt;&gt; AUDIO_DIR = os.environ.get(&#39;AUDIO_DIR&#39;)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; utils.get_audio_path(AUDIO_DIR, 2)
+</span><span style="color:#e6db74">    &#39;../data/fma_small/000/000002.mp3&#39;
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    tid_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{:06d}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(track_id)
+    <span style="color:#66d9ef">return</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(audio_dir, tid_str[:<span style="color:#ae81ff">3</span>], tid_str <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;.mp3&#39;</span>)
+</code></pre></div><h2 id="explore-data-and-build-a-simple-genre-classifier-using-an-svm">Explore data and build a simple genre classifier using an SVM</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">%</span>matplotlib inline
+
+<span style="color:#f92672">import</span> os
+
+<span style="color:#f92672">import</span> IPython.display <span style="color:#66d9ef">as</span> ipd
+<span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+<span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+<span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+<span style="color:#f92672">import</span> sklearn <span style="color:#66d9ef">as</span> skl
+<span style="color:#f92672">import</span> sklearn.utils<span style="color:#f92672">,</span> sklearn.preprocessing<span style="color:#f92672">,</span> sklearn.decomposition<span style="color:#f92672">,</span> sklearn.svm
+<span style="color:#f92672">import</span> librosa
+<span style="color:#f92672">import</span> librosa.display
+<span style="color:#f92672">import</span> ast
+
+AUDIO_DIR <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;data/fma_small&#39;</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">genres <span style="color:#f92672">=</span> load(<span style="color:#e6db74">&#39;data/fma_metadata/genres.csv&#39;</span>)
+features <span style="color:#f92672">=</span> load(<span style="color:#e6db74">&#39;data/fma_metadata/features.csv&#39;</span>)
+tracks <span style="color:#f92672">=</span> load(<span style="color:#e6db74">&#39;data/fma_metadata/tracks.csv&#39;</span>)
+echonest <span style="color:#f92672">=</span> load(<span style="color:#e6db74">&#39;data/fma_metadata/echonest.csv&#39;</span>)
+</code></pre></div><pre><code>/usr/local/lib/python2.7/dist-packages/ipykernel_launcher.py:3: FutureWarning: specifying 'categories' or 'ordered' in .astype() is deprecated; pass a CategoricalDtype instead
+  This is separate from the ipykernel package so we can avoid doing imports until
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">small <span style="color:#f92672">=</span> tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;subset&#39;</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;small&#39;</span>
+
+train <span style="color:#f92672">=</span> tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;split&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;training&#39;</span>
+val <span style="color:#f92672">=</span> tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;split&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;validation&#39;</span>
+test <span style="color:#f92672">=</span> tracks[<span style="color:#e6db74">&#39;set&#39;</span>, <span style="color:#e6db74">&#39;split&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;test&#39;</span>
+
+y_train <span style="color:#f92672">=</span> tracks<span style="color:#f92672">.</span>loc[small <span style="color:#f92672">&amp;</span> train, (<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;genre_top&#39;</span>)]
+y_test <span style="color:#f92672">=</span> tracks<span style="color:#f92672">.</span>loc[small <span style="color:#f92672">&amp;</span> test, (<span style="color:#e6db74">&#39;track&#39;</span>, <span style="color:#e6db74">&#39;genre_top&#39;</span>)]
+X_train <span style="color:#f92672">=</span> features<span style="color:#f92672">.</span>loc[small <span style="color:#f92672">&amp;</span> train, <span style="color:#e6db74">&#39;mfcc&#39;</span>]
+X_test <span style="color:#f92672">=</span> features<span style="color:#f92672">.</span>loc[small <span style="color:#f92672">&amp;</span> test, <span style="color:#e6db74">&#39;mfcc&#39;</span>]
+
+print(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> training examples, </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> testing examples&#39;</span><span style="color:#f92672">.</span>format(y_train<span style="color:#f92672">.</span>size, y_test<span style="color:#f92672">.</span>size))
+print(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> features, </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> classes&#39;</span><span style="color:#f92672">.</span>format(X_train<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>], np<span style="color:#f92672">.</span>unique(y_train)<span style="color:#f92672">.</span>size))
+</code></pre></div><pre><code>6400 training examples, 800 testing examples
+140 features, 8 classes
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Be sure training data is shuffled</span>
+X_train, y_train <span style="color:#f92672">=</span> skl<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>shuffle(X_train, y_train, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>)
+
+<span style="color:#75715e"># Standardize features by removing the mean and scaling to unit variance.</span>
+scaler <span style="color:#f92672">=</span> skl<span style="color:#f92672">.</span>preprocessing<span style="color:#f92672">.</span>StandardScaler(copy<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+scaler<span style="color:#f92672">.</span>fit_transform(X_train)
+scaler<span style="color:#f92672">.</span>transform(X_test)
+
+<span style="color:#75715e"># Support vector classification.</span>
+clf <span style="color:#f92672">=</span> skl<span style="color:#f92672">.</span>svm<span style="color:#f92672">.</span>SVC()
+clf<span style="color:#f92672">.</span>fit(X_train, y_train)
+score <span style="color:#f92672">=</span> clf<span style="color:#f92672">.</span>score(X_test, y_test)
+print(<span style="color:#e6db74">&#39;Accuracy: </span><span style="color:#e6db74">{:.2%}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(score))
+</code></pre></div><pre><code>Accuracy: 46.38%
+</code></pre>
+<p>Awesome! We&rsquo;ve got a pretty shitty genre classifier using an SVM. This can serve as our baseline for now. Credit goes to <a href="https://nbviewer.jupyter.org/github/mdeff/fma/blob/outputs/usage.ipynb">the FMA usage guide</a>.</p>
+<h2 id="mfcc-visualizations-using-librosa">MFCC visualizations using librosa</h2>
+<p>Below we&rsquo;ll use librosa to load in an audio file that&rsquo;s playable from the notebook.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">filename <span style="color:#f92672">=</span> get_audio_path(AUDIO_DIR, <span style="color:#ae81ff">2</span>)
+print(<span style="color:#e6db74">&#39;File: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(filename))
+
+x, sr <span style="color:#f92672">=</span> librosa<span style="color:#f92672">.</span>load(filename, sr<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, mono<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+print(<span style="color:#e6db74">&#39;Duration: </span><span style="color:#e6db74">{:.2f}</span><span style="color:#e6db74">s, </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> samples&#39;</span><span style="color:#f92672">.</span>format(x<span style="color:#f92672">.</span>shape[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">/</span> sr, x<span style="color:#f92672">.</span>size))
+
+start, end <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">17</span>
+ipd<span style="color:#f92672">.</span>Audio(data<span style="color:#f92672">=</span>x[start<span style="color:#f92672">*</span>sr:end<span style="color:#f92672">*</span>sr], rate<span style="color:#f92672">=</span>sr)
+</code></pre></div><pre><code>File: data/fma_small/000/000002.mp3
+Duration: 29.00s, 1321967 samples
+</code></pre>
+<p><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+Your browser does not support the audio element.
+<!-- raw HTML omitted --></p>
+<p>Now we can use librosa to display the above audio file as a spectrogram.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">librosa<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>waveplot(x, sr, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>);
+plt<span style="color:#f92672">.</span>vlines([start, end], <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>)
+
+start <span style="color:#f92672">=</span> len(x) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+plt<span style="color:#f92672">.</span>figure()
+plt<span style="color:#f92672">.</span>plot(x[start:start<span style="color:#f92672">+</span><span style="color:#ae81ff">2000</span>])
+plt<span style="color:#f92672">.</span>ylim((<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>));
+</code></pre></div><p><img src="../fma_rec_and_genre_classification_files/fma_rec_and_genre_classification_35_0.png" alt="png"></p>
+<p><img src="../fma_rec_and_genre_classification_files/fma_rec_and_genre_classification_35_1.png" alt="png"></p>
+<p>Now that I have the waveform of the audio file loaded in using librosa, I can leverage the Fourier Transform to extract its constituent frequencies. Of course librosa offers a FFT function of its own (fast fourier trasnforms using, I assume, a fourier series to the n&rsquo;th degree). But I think it&rsquo;d be fun to try and apply the fourier transform on my own at least for a portion of the 30-sec clip and compare the results to librosa&rsquo;s.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">stft <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>abs(librosa<span style="color:#f92672">.</span>stft(x, n_fft<span style="color:#f92672">=</span><span style="color:#ae81ff">2048</span>, hop_length<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span>))
+<span style="color:#75715e"># mel = librosa.feature.melspectrogram(sr=sr, S=stft**2)</span>
+mel <span style="color:#f92672">=</span> librosa<span style="color:#f92672">.</span>feature<span style="color:#f92672">.</span>melspectrogram(x, sr<span style="color:#f92672">=</span>sr,n_fft<span style="color:#f92672">=</span><span style="color:#ae81ff">2048</span>, hop_length<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span>)
+<span style="color:#75715e"># mel = librosa.power_to_db(mel, ref=np.max)</span>
+log_mel <span style="color:#f92672">=</span> librosa<span style="color:#f92672">.</span>amplitude_to_db(mel)
+
+librosa<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>specshow(mel, sr<span style="color:#f92672">=</span>sr, hop_length<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span>, x_axis<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;time&#39;</span>, y_axis<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mel&#39;</span>);
+librosa<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>specshow(log_mel, sr<span style="color:#f92672">=</span>sr, hop_length<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span>, x_axis<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;time&#39;</span>, y_axis<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mel&#39;</span>);
+</code></pre></div><p><img src="fma_rec_and_genre_classification_files/fma_rec_and_genre_classification_37_0.png" alt="png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mfcc <span style="color:#f92672">=</span> librosa<span style="color:#f92672">.</span>feature<span style="color:#f92672">.</span>mfcc(S<span style="color:#f92672">=</span>librosa<span style="color:#f92672">.</span>power_to_db(mel), n_mfcc<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+mfcc <span style="color:#f92672">=</span> skl<span style="color:#f92672">.</span>preprocessing<span style="color:#f92672">.</span>StandardScaler()<span style="color:#f92672">.</span>fit_transform(mfcc)
+librosa<span style="color:#f92672">.</span>display<span style="color:#f92672">.</span>specshow(mfcc, sr<span style="color:#f92672">=</span>sr, x_axis<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;time&#39;</span>);
+</code></pre></div><p><img src="../fma_rec_and_genre_classification_files/fma_rec_and_genre_classification_38_0.png" alt="png"></p>
+<h2 id="building-the-training-and-testing-sets">Building the Training and Testing Sets</h2>
+<p>We need to generate images for each track and then attach that to the target prediction value which is the genre of that track. So our final dataframe before the train-test split should have images in one column and the genre in another. The images column can be a serialized representation or the name of a filepath.</p>
+<p>I&rsquo;m going to save the new dataset via &ldquo;pickling&rdquo; so that I can quickly load it for training/testing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+</code></pre></div><h2 id="an-unsupervised-implementation">An Unsupervised Implementation</h2>
+<p>While we can start by training a CNN in a supervised manner (by providing genres from the EchoNest dataset as targets) it may be interesting to look into an unsupervised approach as well. The machine may come up with new and novel descriptors to group songs by, and it&rsquo;ll be interesting to compare and contrast those with human defined labels. It was mentioned in the primer on Music Rec Systems that there is a semantic gap to bridge between machine generated labels and human annotations.</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/tags/data-science">data science</a></li>
+					
+					<li><a href="/tags/data-analytics">data analytics</a></li>
+					
+					<li><a href="/tags/covid-19">covid-19</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr><a class="soc" href="https://github.com/teejas" title="GitHub"><i data-feather="github"></i></a>|<a class="soc" href="https://twitter.com/ojsimpsome/" title="Twitter"><i data-feather="twitter"></i></a>|<a class="soc" href="https://www.instagram.com/tejas.siripurapu/" title="Instagram"><i data-feather="instagram"></i></a>|⚡️
+	2021  © Athul |  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+</footer>
+
+
+<script>
+      feather.replace()
+</script></div>
+    </body>
+</html>
