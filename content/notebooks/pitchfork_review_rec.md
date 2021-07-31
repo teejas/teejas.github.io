@@ -1,7 +1,7 @@
 ---
 title: 'Recommendations Based on Pitchfork Written Reviews'
 date: 2020-07-23
-draft: false
+draft: true
 tags:
   - data science
   - data analytics
