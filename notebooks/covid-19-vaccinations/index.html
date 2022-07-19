@@ -1,62 +1,22 @@
-<!doctype html><html><head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge"><title>Investigating Global COVID-19 Vaccinations - Tejas Siripurapu</title><meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="Introduction I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).
-Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available.">
-<meta property="og:image" content>
-<meta property="og:title" content="Investigating Global COVID-19 Vaccinations">
-<meta property="og:description" content="Introduction I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).
-Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://teejas.github.io/notebooks/covid-19-vaccinations/"><meta property="article:section" content="notebooks">
-<meta property="article:published_time" content="2021-02-23T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-02-23T00:00:00+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Investigating Global COVID-19 Vaccinations">
-<meta name=twitter:description content="Introduction I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).
-Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available.">
-<script src=https://teejas.github.io/js/feather.min.js></script>
-<link href=https://teejas.github.io/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
-<link rel=stylesheet type=text/css media=screen href=https://teejas.github.io/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
-</head>
-<body>
-<div class=content><header>
-<div class=main>
-<a href=https://teejas.github.io/>Tejas Siripurapu</a>
-</div>
-<nav>
-<a href=/>Home</a>
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Investigating Global COVID-19 Vaccinations - Tejas Siripurapu</title><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Introduction I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).
+Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available."><meta property="og:image" content><meta property="og:title" content="Investigating Global COVID-19 Vaccinations"><meta property="og:description" content="Introduction I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).
+Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available."><meta property="og:type" content="article"><meta property="og:url" content="https://teejas.github.io/notebooks/covid-19-vaccinations/"><meta property="article:section" content="notebooks"><meta property="article:published_time" content="2021-02-23T00:00:00+00:00"><meta property="article:modified_time" content="2021-02-23T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Investigating Global COVID-19 Vaccinations"><meta name=twitter:description content="Introduction I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).
+Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available."><script src=https://teejas.github.io/js/feather.min.js></script>
+<link href=https://teejas.github.io/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet><link rel=stylesheet type=text/css media=screen href=https://teejas.github.io/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css></head><body><div class=content><header><div class=main><a href=https://teejas.github.io/>Tejas Siripurapu</a></div><nav><a href=/>Home</a>
 <a href=/posts>All Posts</a>
 <a href=/notebooks>Notebooks</a>
 <a href=/about>About</a>
-<a href=/tags>Tags</a>
-</nav>
-</header>
-<main>
-<article>
-<div class=title>
-<h1 class=title>Investigating Global COVID-19 Vaccinations</h1>
-<div class=meta>Posted on Feb 23, 2021</div>
-</div>
-<section class=body>
-<h1 id=introduction>Introduction</h1>
-<p>I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).</p>
-<p>Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available.</p>
-<p>The United States is of course a personal interest to investigate, as I live here, but it also underwent a presidential election and transfer of power during the pandemic, so it&rsquo;ll be interesting to see how vaccination rates compare before and after inauguration and how they compare across the country. Throughout the pandemic I&rsquo;ve been following <a href=https://dangoodspeed.com/covid/total-cases-since-june>Dan Goodspeed&rsquo;s COVID-19 charts</a>, I especially like the chart which compares COVID-19 rates per capita between states and colors them by partisanship (red or blue). Thinking a similar idea here, but instead comparing vaccination rates.</p>
-<p>India is another personal interest to investigate, but similar to how the USA underwent a political upheaval (change in leadership, attempted insurrection, etc.) India is going through a period of major social/economic upheaval as well through the farmers protests. Here I am more interested in investigating how the protests have impacted the incidence of COVID-19 and vaccination rates. So this will just be a graph of cumulative vaccinations (or rates per week) with points labeled with major events in the protests.</p>
-<h2 id=datasets>Datasets</h2>
-<p>For this investigation I&rsquo;m using the Our World In Data COVID-19 dataset and their COVID-19 vaccination-specific dataset, which is large (17MB) and probably a bit in excess of what I need. I&rsquo;m going to start by loading in the entire thing, but take a focused look at the <code>vaccinations</code> dataset.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o <span style=color:#f92672>./</span>data<span style=color:#f92672>/</span>covid19_data<span style=color:#f92672>.</span>csv https:<span style=color:#f92672>//</span>covid<span style=color:#f92672>.</span>ourworldindata<span style=color:#f92672>.</span>org<span style=color:#f92672>/</span>data<span style=color:#f92672>/</span>owid<span style=color:#f92672>-</span>covid<span style=color:#f92672>-</span>data<span style=color:#f92672>.</span>csv
-<span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o <span style=color:#f92672>./</span>data<span style=color:#f92672>/</span>covid19_vaccinationdata<span style=color:#f92672>.</span>csv https:<span style=color:#f92672>//</span>raw<span style=color:#f92672>.</span>githubusercontent<span style=color:#f92672>.</span>com<span style=color:#f92672>/</span>owid<span style=color:#f92672>/</span>covid<span style=color:#f92672>-</span><span style=color:#ae81ff>19</span><span style=color:#f92672>-</span>data<span style=color:#f92672>/</span>master<span style=color:#f92672>/</span>public<span style=color:#f92672>/</span>data<span style=color:#f92672>/</span>vaccinations<span style=color:#f92672>/</span>vaccinations<span style=color:#f92672>.</span>csv
-
-<span style=color:#75715e># Let&#39;s fetch the WorldBank population dataset</span>
-<span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o country_pop <span style=color:#e6db74>&#39;http://api.worldbank.org/V2/country/all/indicators/SP.POP.TOTL?downloadformat=csv&#39;</span>
-<span style=color:#960050;background-color:#1e0010>!</span>unzip country_pop
-<span style=color:#960050;background-color:#1e0010>!</span>ls
-<span style=color:#75715e># trim first four metadata lines (seriously why are these lines even here?)</span>
-<span style=color:#960050;background-color:#1e0010>!</span>tail <span style=color:#f92672>-</span>n <span style=color:#f92672>+</span><span style=color:#ae81ff>5</span> <span style=color:#e6db74>&#34;API_SP.POP.TOTL_DS2_EN_csv_v2_2064197.csv&#34;</span> <span style=color:#f92672>&gt;</span> <span style=color:#e6db74>&#34;./data/country_pop.csv&#34;</span>
-<span style=color:#960050;background-color:#1e0010>!</span>rm country_pop API_SP<span style=color:#f92672>*</span> Metadata<span style=color:#f92672>*</span>
-</code></pre></div><pre><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+<a href=/tags>Tags</a></nav></header><main><article><div class=title><h1 class=title>Investigating Global COVID-19 Vaccinations</h1><div class=meta>Posted on Feb 23, 2021</div></div><section class=body><h1 id=introduction>Introduction</h1><p>I&rsquo;m curious to see how vaccination rates compare between countries and within countries (specifically the United States, India, and Israel).</p><p>Israel is the country with the fastest vaccination rate, already surpassing 30% of the total population vaccinated. I&rsquo;m curious to see how this compares to the other local Arab states (I know the UAE is in second in terms of vaccination rate), and how vaccination rates among Palestinians compare, if that data is available.</p><p>The United States is of course a personal interest to investigate, as I live here, but it also underwent a presidential election and transfer of power during the pandemic, so it&rsquo;ll be interesting to see how vaccination rates compare before and after inauguration and how they compare across the country. Throughout the pandemic I&rsquo;ve been following <a href=https://dangoodspeed.com/covid/total-cases-since-june>Dan Goodspeed&rsquo;s COVID-19 charts</a>, I especially like the chart which compares COVID-19 rates per capita between states and colors them by partisanship (red or blue). Thinking a similar idea here, but instead comparing vaccination rates.</p><p>India is another personal interest to investigate, but similar to how the USA underwent a political upheaval (change in leadership, attempted insurrection, etc.) India is going through a period of major social/economic upheaval as well through the farmers protests. Here I am more interested in investigating how the protests have impacted the incidence of COVID-19 and vaccination rates. So this will just be a graph of cumulative vaccinations (or rates per week) with points labeled with major events in the protests.</p><h2 id=datasets>Datasets</h2><p>For this investigation I&rsquo;m using the Our World In Data COVID-19 dataset and their COVID-19 vaccination-specific dataset, which is large (17MB) and probably a bit in excess of what I need. I&rsquo;m going to start by loading in the entire thing, but take a focused look at the <code>vaccinations</code> dataset.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o <span style=color:#f92672>./</span>data<span style=color:#f92672>/</span>covid19_data<span style=color:#f92672>.</span>csv https:<span style=color:#f92672>//</span>covid<span style=color:#f92672>.</span>ourworldindata<span style=color:#f92672>.</span>org<span style=color:#f92672>/</span>data<span style=color:#f92672>/</span>owid<span style=color:#f92672>-</span>covid<span style=color:#f92672>-</span>data<span style=color:#f92672>.</span>csv
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o <span style=color:#f92672>./</span>data<span style=color:#f92672>/</span>covid19_vaccinationdata<span style=color:#f92672>.</span>csv https:<span style=color:#f92672>//</span>raw<span style=color:#f92672>.</span>githubusercontent<span style=color:#f92672>.</span>com<span style=color:#f92672>/</span>owid<span style=color:#f92672>/</span>covid<span style=color:#f92672>-</span><span style=color:#ae81ff>19</span><span style=color:#f92672>-</span>data<span style=color:#f92672>/</span>master<span style=color:#f92672>/</span>public<span style=color:#f92672>/</span>data<span style=color:#f92672>/</span>vaccinations<span style=color:#f92672>/</span>vaccinations<span style=color:#f92672>.</span>csv
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Let&#39;s fetch the WorldBank population dataset</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o country_pop <span style=color:#e6db74>&#39;http://api.worldbank.org/V2/country/all/indicators/SP.POP.TOTL?downloadformat=csv&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>unzip country_pop
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>ls
+</span></span><span style=display:flex><span><span style=color:#75715e># trim first four metadata lines (seriously why are these lines even here?)</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>tail <span style=color:#f92672>-</span>n <span style=color:#f92672>+</span><span style=color:#ae81ff>5</span> <span style=color:#e6db74>&#34;API_SP.POP.TOTL_DS2_EN_csv_v2_2064197.csv&#34;</span> <span style=color:#f92672>&gt;</span> <span style=color:#e6db74>&#34;./data/country_pop.csv&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>rm country_pop API_SP<span style=color:#f92672>*</span> Metadata<span style=color:#f92672>*</span>
+</span></span></code></pre></div><pre><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100 17.4M    0 17.4M    0     0  44.0M      0 --:--:-- --:--:-- --:--:-- 43.9M
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -86,197 +46,155 @@ Archive:  country_pop
  graphs
  israel_neighbors_daily_doses.png
  israel_neighbors_daily_doses_per_capita.png
-</code></pre>
-<p>That cURL request just fetched two CSV files, one for the general dataset and one for the vaccination specific dataset. This cell should be rerun every day as that&rsquo;s how frequently Our World in Data updates their dataset. Now we can look into the set and see what we want. As a preliminary chart I&rsquo;m going to make a line chart of weekly vaccination rates by country (top ten will be graphed with distinct colors) starting in December. So the y-axis will be number of people fully (two doses) vaccinated per 100 people, and the x-axis will be dates (week index, with 0 being first week of December).</p>
-<h2 id=exploring-the-data>Exploring the Data</h2>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> pandas <span style=color:#66d9ef>as</span> pd
-<span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
-<span style=color:#f92672>import</span> matplotlib.pyplot <span style=color:#66d9ef>as</span> plt
-<span style=color:#f92672>import</span> matplotlib.dates <span style=color:#66d9ef>as</span> mdates
-<span style=color:#f92672>from</span> datetime <span style=color:#f92672>import</span> datetime, date
-<span style=color:#f92672>import</span> math
-
-<span style=color:#f92672>import</span> urllib
-<span style=color:#f92672>import</span> os
-<span style=color:#f92672>import</span> csv
-</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>read_csv(<span style=color:#e6db74>&#34;covid19_vaccinationdata.csv&#34;</span>)
-pop_df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>read_csv(<span style=color:#e6db74>&#34;country_pop.csv&#34;</span>)
-<span style=color:#75715e># trim</span>
-vaccine_df <span style=color:#f92672>=</span> df[[<span style=color:#e6db74>&#34;location&#34;</span>, <span style=color:#e6db74>&#34;iso_code&#34;</span>, <span style=color:#e6db74>&#34;date&#34;</span>,  <span style=color:#e6db74>&#34;total_vaccinations&#34;</span>, <span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>,
-                 <span style=color:#e6db74>&#34;daily_vaccinations_raw&#34;</span>, <span style=color:#e6db74>&#34;people_fully_vaccinated&#34;</span>,  <span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>,
-                 <span style=color:#e6db74>&#34;people_fully_vaccinated_per_hundred&#34;</span>]]
-
-<span style=color:#75715e># I&#39;m calculating the per capita rate for daily doses administered myself</span>
-<span style=color:#75715e># (daily_vaccinations_per_million in the Our World in Data dataset). This is because I&#39;ll be using the</span>
-<span style=color:#75715e># World Bank dataset later which draws it&#39;s population counts from a more complete set of sources</span>
-<span style=color:#75715e># and I want to be consistent about what population values I&#39;m using. I will fill in the NaN calculated values with</span>
-<span style=color:#75715e># per capita values from OWiD&#39;s dataset.</span>
-year <span style=color:#f92672>=</span> <span style=color:#ae81ff>2020</span>
-<span style=color:#66d9ef>while</span> year <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>1960</span>:
-  pop_df[<span style=color:#e6db74>&#34;2020&#34;</span>]<span style=color:#f92672>.</span>fillna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, value<span style=color:#f92672>=</span>pop_df[str(year)])
-  year <span style=color:#f92672>-=</span> <span style=color:#ae81ff>1</span>
-pop_df <span style=color:#f92672>=</span> pop_df[[<span style=color:#e6db74>&#34;Country Name&#34;</span>, <span style=color:#e6db74>&#34;2020&#34;</span>]]
-
-pop_df<span style=color:#f92672>.</span>rename(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, columns<span style=color:#f92672>=</span>{<span style=color:#e6db74>&#34;2020&#34;</span>: <span style=color:#e6db74>&#34;latest_available_population&#34;</span>})
-pop_df<span style=color:#f92672>.</span>dropna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;any&#34;</span>, axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;index&#34;</span>)
-vaccine_df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>merge(vaccine_df, pop_df, left_on<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;location&#34;</span>], right_on<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;Country Name&#34;</span>], how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;outer&#34;</span>)
-vaccine_df <span style=color:#f92672>=</span> vaccine_df<span style=color:#f92672>.</span>assign(daily_vaccinations_per_million_calculated <span style=color:#f92672>=</span> <span style=color:#66d9ef>lambda</span> x:
-                               x[<span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>] <span style=color:#f92672>/</span> (x[<span style=color:#e6db74>&#34;latest_available_population&#34;</span>] <span style=color:#f92672>/</span> <span style=color:#ae81ff>1000000</span>))
-vaccine_df[<span style=color:#e6db74>&#34;daily_vaccinations_per_million_calculated&#34;</span>]<span style=color:#f92672>.</span>fillna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, value<span style=color:#f92672>=</span>vaccine_df[<span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>])
-vaccine_df<span style=color:#f92672>.</span>drop(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, columns<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>])
-vaccine_df<span style=color:#f92672>.</span>rename(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, columns<span style=color:#f92672>=</span>{
-  <span style=color:#e6db74>&#34;daily_vaccinations_per_million_calculated&#34;</span>:<span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>
-})
-</code></pre></div><p>So we have metrics for daily vaccinations, and this is provided in a number of ways:</p>
-<ul>
-<li><code>daily_vaccinations_raw</code>: only calculated when there is data on total vaccinations for consecutive days.</li>
-<li><code>daily_vaccinations</code>: calculated for every day
-<ol>
-<li>Fill gaps in data for <code>total_vaccinations</code> assuming a perfectly linear progression</li>
-<li>Calculate the daily vaccinations as the difference in the interpolated totals day by day</li>
-<li>The smoothed daily vaccinations are calculated by taking an average of the previous 7 days as calculated in Step 2, or fewer if 7 data points are not available.</li>
-</ol>
-<ul>
-<li>Further description provided <a href=https://github.com/owid/covid-19-data/issues/333#issuecomment-763015298>here</a>.</li>
-</ul>
-</li>
-<li><code>daily_vaccinations_per_million</code>: calculated for every day as <code>daily_vaccinations</code> / (country population in millions)</li>
-</ul>
-<p>As a starting point let&rsquo;s get the average daily vaccination rate by taking the <code>total_vaccinations</code> for each country and dividing by the number of days since the first day they reported vaccination numbers.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_daily_average</span>(df, doses<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>):
-  <span style=color:#75715e># doses is a boolean flag to indicate whether to measure the average as a fraction of individual vaccine doses administered</span>
-  <span style=color:#75715e>#   or of people fully vaccinated</span>
-  cumulative_val <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;total_vaccinations&#34;</span> <span style=color:#66d9ef>if</span> doses <span style=color:#66d9ef>else</span> <span style=color:#e6db74>&#34;people_fully_vaccinated&#34;</span>
-
-  <span style=color:#75715e># Get total vaccinations for all countries and drop null vals by row</span>
-  tv_raw <span style=color:#f92672>=</span> df[[<span style=color:#e6db74>&#34;location&#34;</span>, cumulative_val]]<span style=color:#f92672>.</span>copy()
-  tv_raw<span style=color:#f92672>.</span>dropna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;index&#34;</span>, how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;any&#34;</span>)
-
-  countries <span style=color:#f92672>=</span> tv_raw<span style=color:#f92672>.</span>location<span style=color:#f92672>.</span>unique()
-
-  <span style=color:#75715e># Create a dictionary where keys are countries and values are average daily vaccinations</span>
-  dv_dict <span style=color:#f92672>=</span> {}
-  <span style=color:#66d9ef>for</span> country <span style=color:#f92672>in</span> countries:
-    tv_country <span style=color:#f92672>=</span> tv_raw[tv_raw[<span style=color:#e6db74>&#34;location&#34;</span>] <span style=color:#f92672>==</span> country]
-    total_vac <span style=color:#f92672>=</span> tv_country[cumulative_val]<span style=color:#f92672>.</span>iloc[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]
-    <span style=color:#75715e># Assume first date with any value (even 0 or NaN) provided is the day vaccinations began in that country</span>
-    first_vac_date <span style=color:#f92672>=</span> df[df[<span style=color:#e6db74>&#34;location&#34;</span>] <span style=color:#f92672>==</span> country][<span style=color:#e6db74>&#34;date&#34;</span>]<span style=color:#f92672>.</span>iloc[<span style=color:#ae81ff>0</span>]
-    fv_date_obj <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>strptime(first_vac_date, <span style=color:#e6db74>&#39;%Y-%m-</span><span style=color:#e6db74>%d</span><span style=color:#e6db74>&#39;</span>)
-    today <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>today()<span style=color:#f92672>.</span>date()
-    delta <span style=color:#f92672>=</span> today <span style=color:#f92672>-</span> fv_date_obj<span style=color:#f92672>.</span>date()
-
-    dv_dict[country] <span style=color:#f92672>=</span> total_vac <span style=color:#f92672>/</span> delta<span style=color:#f92672>.</span>days
-
-  <span style=color:#66d9ef>return</span> dv_dict
-
-<span style=color:#75715e># Print the dictionary sorted by average daily doses administered</span>
-dv_doses <span style=color:#f92672>=</span> get_daily_average(vaccine_df)
-print(sorted(dv_doses<span style=color:#f92672>.</span>items(), key<span style=color:#f92672>=</span><span style=color:#66d9ef>lambda</span> item: item[<span style=color:#ae81ff>1</span>], reverse<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)[:<span style=color:#ae81ff>15</span>])
-
-</code></pre></div><pre><code>[('World', 2856593.6097560977), ('United States', 1006486.6285714286), ('China', 540266.6666666666), ('European Union', 386668.6219512195), ('India', 312657.7272727273), ('United Kingdom', 258618.0779220779), ('England', 217997.93506493507), ('Brazil', 188413.6511627907), ('Turkey', 180408.80434782608), ('Israel', 112081.50704225352), ('Morocco', 110461.12903225806), ('United Arab Emirates', 109875.9074074074), ('Germany', 93818.04761904762), ('Bangladesh', 86392.12121212122), ('France', 68231.31746031746)]
-</code></pre>
-<p>So that&rsquo;s some heartening news given that I live in the US. I should&rsquo;ve dropped all rows that pertain to the &ldquo;World&rdquo; at large, but it&rsquo;s useful to have that as a sort of baseline metric (divide by number of countries, 101, to get the average countries average daily vaccination rate for a country).</p>
-<p>The above is a function which creates a dictionary associating each country with the average daily number of vaccinations administered, measured as either the number of individual doses administered or as the number of people fully vaccinated.</p>
-<h2 id=graphing-to-compare-across-a-subset-of-countries>Graphing to Compare Across a Subset of Countries</h2>
-<p>Now let&rsquo;s write a function that allows us to graph the performance of multiple countries based on different vaccination rate metrics (i.e. raw doses adminsitered, doses administered per million, or people fully vaccinated&ndash;2 doses&ndash;per hundred). We&rsquo;ll start by comparing the per capita performance of the leading ten countries when we measured average number of doses administered per day. We assume the larger countries by population, like China, India, and the US, should have higher raw total doses administered, since they just have more people and a greater demand. It will be interesting to see how these massive countries compare when normalized for population.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>top_ten_items <span style=color:#f92672>=</span> sorted(dv_doses<span style=color:#f92672>.</span>items(), key<span style=color:#f92672>=</span><span style=color:#66d9ef>lambda</span> item: item[<span style=color:#ae81ff>1</span>], reverse<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)[<span style=color:#ae81ff>1</span>:<span style=color:#ae81ff>11</span>]
-top_ten_countries <span style=color:#f92672>=</span> []
-<span style=color:#66d9ef>for</span> item <span style=color:#f92672>in</span> top_ten_items:
-  top_ten_countries<span style=color:#f92672>.</span>append(item[<span style=color:#ae81ff>0</span>])
-
-<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>plot_combined_linegraph</span>(countries_arr, metric, ylabel, title, filename):
-  <span style=color:#75715e># helper function to plot a combined linegraph of multiple countries by some metric in the vaccine_df</span>
-  <span style=color:#75715e>#   input is an array of country names</span>
-  dv_df <span style=color:#f92672>=</span> vaccine_df[[<span style=color:#e6db74>&#34;location&#34;</span>, <span style=color:#e6db74>&#34;date&#34;</span>, metric]]<span style=color:#f92672>.</span>copy()
-  dv_df<span style=color:#f92672>.</span>dropna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;index&#34;</span>, how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;any&#34;</span>)
-
-  fig, ax <span style=color:#f92672>=</span> plt<span style=color:#f92672>.</span>subplots(figsize<span style=color:#f92672>=</span>(<span style=color:#ae81ff>20</span>,<span style=color:#ae81ff>10</span>))
-
-  <span style=color:#66d9ef>for</span> country <span style=color:#f92672>in</span> countries_arr:
-    country_df <span style=color:#f92672>=</span> dv_df[dv_df[<span style=color:#e6db74>&#34;location&#34;</span>] <span style=color:#f92672>==</span> country]
-    dates <span style=color:#f92672>=</span> country_df[<span style=color:#e6db74>&#34;date&#34;</span>]<span style=color:#f92672>.</span>values
-    x <span style=color:#f92672>=</span> [datetime<span style=color:#f92672>.</span>strptime(d, <span style=color:#e6db74>&#39;%Y-%m-</span><span style=color:#e6db74>%d</span><span style=color:#e6db74>&#39;</span>)<span style=color:#f92672>.</span>date() <span style=color:#66d9ef>for</span> d <span style=color:#f92672>in</span> dates]
-    y <span style=color:#f92672>=</span> country_df[metric]<span style=color:#f92672>.</span>values
-    plt<span style=color:#f92672>.</span>plot(x, y, label<span style=color:#f92672>=</span>country)
-
-  <span style=color:#75715e># Let&#39;s configure pyplot properly</span>
-
-  formatter <span style=color:#f92672>=</span> mdates<span style=color:#f92672>.</span>DateFormatter(<span style=color:#e6db74>&#34;%Y-%m-</span><span style=color:#e6db74>%d</span><span style=color:#e6db74>&#34;</span>)
-  ax<span style=color:#f92672>.</span>xaxis<span style=color:#f92672>.</span>set_major_formatter(formatter)
-  locator <span style=color:#f92672>=</span> mdates<span style=color:#f92672>.</span>DayLocator()
-  ax<span style=color:#f92672>.</span>xaxis<span style=color:#f92672>.</span>set_major_locator(locator)
-  plt<span style=color:#f92672>.</span>xticks(rotation<span style=color:#f92672>=</span><span style=color:#ae81ff>45</span>, ha<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;right&#34;</span>)
-
-  plt<span style=color:#f92672>.</span>xlabel(<span style=color:#e6db74>&#34;Dates&#34;</span>)
-  plt<span style=color:#f92672>.</span>ylabel(ylabel)
-  plt<span style=color:#f92672>.</span>title(title)
-
-  <span style=color:#75715e># Now display and download the graph</span>
-
-  plt<span style=color:#f92672>.</span>legend()
-  plt<span style=color:#f92672>.</span>show()
-
-  full_path <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;./graphs/&#34;</span> <span style=color:#f92672>+</span> filename
-
-  fig<span style=color:#f92672>.</span>savefig(full_path, bbox_inches<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;tight&#39;</span>)
-
-plot_combined_linegraph(top_ten_countries, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>,
-                       ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Vaccine Doses Administered Daily&#34;</span>,
-                       title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Vaccination Rate for Leading Countries&#34;</span>,
-                       filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations.png&#34;</span>)
-plot_combined_linegraph(top_ten_countries, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>,
-                       ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Vaccine Doses Administered Daily per Million People&#34;</span>,
-                       title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Per Capita Vaccination Rate for Leading Countries&#34;</span>,
-                       filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations_per_million.png&#34;</span>)
-plot_combined_linegraph(top_ten_countries, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;people_fully_vaccinated_per_hundred&#34;</span>,
-                       ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of People Fully Vaccinated Daily per Hundred People&#34;</span>,
-                       title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Full Vaccination Rate per Hundred People for Leading Countries&#34;</span>,
-                       filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_full_vaccinations_per_hundred.png&#34;</span>)
-
-</code></pre></div><p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_11_0.png alt=png></p>
-<p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_11_1.png alt=png></p>
-<p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_11_2.png alt=png></p>
-<p>Just to clarify, the countries being graphed above are the top ten when measured by the average number of doses administered in a day. When we compare the performance of countries in terms of how many vaccines they&rsquo;re able to administer we should always normalize for population. Larger countries by population, like the US or India, should ideally have more infrastructure and manpower available to deliver the vaccine at scale. What we end up seeing, however, is that the countries which were originally leaders in average number of doses delivered per day aren&rsquo;t actually delivering vaccines as efficiently as countries with smaller populations, and therefore lower raw doses delivered counts.</p>
-<p>Israel is a small country by population when compared against the other countries in the top ten, but it is a leader in both raw counts of doses delivered per day and adjusted per capita rates. There&rsquo;s a couple explanations for this: the difference between how robust and efficient Israel&rsquo;s infrastructure is and it&rsquo;s size by population is huge and/or the infrastructure of large pop countries like India and the US is inefficient relative to their size. The latter is illustrated by the graph above, larger population countries don&rsquo;t compare well against smaller countries when measured using per capita rates. The former we can measure by graphing Israel against countries of a similar size by population (the k-nearest neighbors).</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># take Israel and it&#39;s top ten nearest neighbors by population for the latest year it was reported for Israel (2019)</span>
-israel_pop <span style=color:#f92672>=</span> pop_df[pop_df[<span style=color:#e6db74>&#34;Country Name&#34;</span>] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;Israel&#34;</span>][<span style=color:#e6db74>&#34;latest_available_population&#34;</span>]<span style=color:#f92672>.</span>item()
-israel_neighbors <span style=color:#f92672>=</span> pop_df<span style=color:#f92672>.</span>iloc[(pop_df[<span style=color:#e6db74>&#34;latest_available_population&#34;</span>]<span style=color:#f92672>-</span>israel_pop)<span style=color:#f92672>.</span>abs()<span style=color:#f92672>.</span>argsort()[:<span style=color:#ae81ff>11</span>]][<span style=color:#e6db74>&#34;Country Name&#34;</span>]<span style=color:#f92672>.</span>to_numpy()
-<span style=color:#75715e># def plot_combined_linegraph(countries_arr, metric, ylabel, title, filename):</span>
-plot_combined_linegraph(israel_neighbors, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>,
-                        ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Doses Administered&#34;</span>,
-                        title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Doses Administered per Day for Israel and it&#39;s 10 Nearest Neighbors by Population&#34;</span>,
-                        filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;israel_neighbors_daily_doses.png&#34;</span>)
-
-plot_combined_linegraph(israel_neighbors, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>,
-                        ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Doses Administered per Million Citizens&#34;</span>,
-                        title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Doses Administered per Capita for Israel and it&#39;s 10 Nearest Neighbors by Population&#34;</span>,
-                        filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;israel_neighbors_daily_doses_per_capita.png&#34;</span>)
-</code></pre></div><p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_13_0.png alt=png></p>
-<p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_13_1.png alt=png></p>
-<p>I&rsquo;ll admit I did miss the fact that the UAE was also on both lists and is certainly a similar size by population as Israel. It does seem, however, that Israel and the UAE are far and away from their population neighbors in terms of vaccinations administered per day. It would seem that for their populations they certainly boast either more access to vaccine manufacturers/distributors, or the infrastructure to manufacture vaccines themselves.</p>
-<h1 id=expanding-the-dataset>Expanding the Dataset</h1>
-<p>To get a better idea of what factors impact the ability for a country to administer more vaccines per capita I need to compare vaccine distribution rates by other metrics pertaining to economic factors like GDP, government spend and national debt, and healthcare factors like healthcare spending, size in number of doctors and hospitals and ventilators and ICU capacity.</p>
-<p>I&rsquo;m going to load in a couple more datasets which I&rsquo;ll need to join by some common key. Country code seems like a good bet, and an inner join so we only take countries tracked in both datasets.</p>
-<p>I&rsquo;ll make a couple graphs to make sure the dataset is of good quality, then I can run some principal component analysis to see which features have the greatest correlation with daily_vaccinations and people_fully_vaccinated. I can then use this to generate a smaller dataset of principal features, split into a testing and training set and start projecting daily_vaccinations and people_fully_vaccinated and calculate which country is most likely to reach herd immunity within their borders first.</p>
-<p>It&rsquo;s obvious that I need to include much more historical data to train this model on, so I&rsquo;ll have to find data pertaining to previous government-led vaccine administration programs.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># Load in the global national debt dataset and pd.read_excel</span>
-<span style=color:#960050;background-color:#1e0010>!</span>rm <span style=color:#f92672>*.</span>dta
-<span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o global_debt_stata<span style=color:#f92672>.</span>zip https:<span style=color:#f92672>//</span>www<span style=color:#f92672>.</span>imf<span style=color:#f92672>.</span>org<span style=color:#f92672>/</span>external<span style=color:#f92672>/</span>datamapper<span style=color:#f92672>/</span>GDD<span style=color:#f92672>/</span>GlobalDebtDatabase<span style=color:#f92672>.</span>zip
-<span style=color:#960050;background-color:#1e0010>!</span>unzip global_debt_stata<span style=color:#f92672>.</span>zip
-<span style=color:#960050;background-color:#1e0010>!</span>rm <span style=color:#f92672>*.</span>zip
-</code></pre></div><pre><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</code></pre><p>That cURL request just fetched two CSV files, one for the general dataset and one for the vaccination specific dataset. This cell should be rerun every day as that&rsquo;s how frequently Our World in Data updates their dataset. Now we can look into the set and see what we want. As a preliminary chart I&rsquo;m going to make a line chart of weekly vaccination rates by country (top ten will be graphed with distinct colors) starting in December. So the y-axis will be number of people fully (two doses) vaccinated per 100 people, and the x-axis will be dates (week index, with 0 being first week of December).</p><h2 id=exploring-the-data>Exploring the Data</h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> pandas <span style=color:#66d9ef>as</span> pd
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> matplotlib.pyplot <span style=color:#66d9ef>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> matplotlib.dates <span style=color:#66d9ef>as</span> mdates
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> datetime <span style=color:#f92672>import</span> datetime, date
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> math
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> urllib
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> csv
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>read_csv(<span style=color:#e6db74>&#34;covid19_vaccinationdata.csv&#34;</span>)
+</span></span><span style=display:flex><span>pop_df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>read_csv(<span style=color:#e6db74>&#34;country_pop.csv&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#75715e># trim</span>
+</span></span><span style=display:flex><span>vaccine_df <span style=color:#f92672>=</span> df[[<span style=color:#e6db74>&#34;location&#34;</span>, <span style=color:#e6db74>&#34;iso_code&#34;</span>, <span style=color:#e6db74>&#34;date&#34;</span>,  <span style=color:#e6db74>&#34;total_vaccinations&#34;</span>, <span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>,
+</span></span><span style=display:flex><span>                 <span style=color:#e6db74>&#34;daily_vaccinations_raw&#34;</span>, <span style=color:#e6db74>&#34;people_fully_vaccinated&#34;</span>,  <span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>,
+</span></span><span style=display:flex><span>                 <span style=color:#e6db74>&#34;people_fully_vaccinated_per_hundred&#34;</span>]]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># I&#39;m calculating the per capita rate for daily doses administered myself</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># (daily_vaccinations_per_million in the Our World in Data dataset). This is because I&#39;ll be using the</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># World Bank dataset later which draws it&#39;s population counts from a more complete set of sources</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># and I want to be consistent about what population values I&#39;m using. I will fill in the NaN calculated values with</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># per capita values from OWiD&#39;s dataset.</span>
+</span></span><span style=display:flex><span>year <span style=color:#f92672>=</span> <span style=color:#ae81ff>2020</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> year <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>1960</span>:
+</span></span><span style=display:flex><span>  pop_df[<span style=color:#e6db74>&#34;2020&#34;</span>]<span style=color:#f92672>.</span>fillna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, value<span style=color:#f92672>=</span>pop_df[str(year)])
+</span></span><span style=display:flex><span>  year <span style=color:#f92672>-=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>pop_df <span style=color:#f92672>=</span> pop_df[[<span style=color:#e6db74>&#34;Country Name&#34;</span>, <span style=color:#e6db74>&#34;2020&#34;</span>]]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>pop_df<span style=color:#f92672>.</span>rename(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, columns<span style=color:#f92672>=</span>{<span style=color:#e6db74>&#34;2020&#34;</span>: <span style=color:#e6db74>&#34;latest_available_population&#34;</span>})
+</span></span><span style=display:flex><span>pop_df<span style=color:#f92672>.</span>dropna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;any&#34;</span>, axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;index&#34;</span>)
+</span></span><span style=display:flex><span>vaccine_df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>merge(vaccine_df, pop_df, left_on<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;location&#34;</span>], right_on<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;Country Name&#34;</span>], how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;outer&#34;</span>)
+</span></span><span style=display:flex><span>vaccine_df <span style=color:#f92672>=</span> vaccine_df<span style=color:#f92672>.</span>assign(daily_vaccinations_per_million_calculated <span style=color:#f92672>=</span> <span style=color:#66d9ef>lambda</span> x:
+</span></span><span style=display:flex><span>                               x[<span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>] <span style=color:#f92672>/</span> (x[<span style=color:#e6db74>&#34;latest_available_population&#34;</span>] <span style=color:#f92672>/</span> <span style=color:#ae81ff>1000000</span>))
+</span></span><span style=display:flex><span>vaccine_df[<span style=color:#e6db74>&#34;daily_vaccinations_per_million_calculated&#34;</span>]<span style=color:#f92672>.</span>fillna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, value<span style=color:#f92672>=</span>vaccine_df[<span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>])
+</span></span><span style=display:flex><span>vaccine_df<span style=color:#f92672>.</span>drop(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, columns<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>])
+</span></span><span style=display:flex><span>vaccine_df<span style=color:#f92672>.</span>rename(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, columns<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;daily_vaccinations_per_million_calculated&#34;</span>:<span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><p>So we have metrics for daily vaccinations, and this is provided in a number of ways:</p><ul><li><code>daily_vaccinations_raw</code>: only calculated when there is data on total vaccinations for consecutive days.</li><li><code>daily_vaccinations</code>: calculated for every day<ol><li>Fill gaps in data for <code>total_vaccinations</code> assuming a perfectly linear progression</li><li>Calculate the daily vaccinations as the difference in the interpolated totals day by day</li><li>The smoothed daily vaccinations are calculated by taking an average of the previous 7 days as calculated in Step 2, or fewer if 7 data points are not available.</li></ol><ul><li>Further description provided <a href=https://github.com/owid/covid-19-data/issues/333#issuecomment-763015298>here</a>.</li></ul></li><li><code>daily_vaccinations_per_million</code>: calculated for every day as <code>daily_vaccinations</code> / (country population in millions)</li></ul><p>As a starting point let&rsquo;s get the average daily vaccination rate by taking the <code>total_vaccinations</code> for each country and dividing by the number of days since the first day they reported vaccination numbers.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_daily_average</span>(df, doses<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>):
+</span></span><span style=display:flex><span>  <span style=color:#75715e># doses is a boolean flag to indicate whether to measure the average as a fraction of individual vaccine doses administered</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>#   or of people fully vaccinated</span>
+</span></span><span style=display:flex><span>  cumulative_val <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;total_vaccinations&#34;</span> <span style=color:#66d9ef>if</span> doses <span style=color:#66d9ef>else</span> <span style=color:#e6db74>&#34;people_fully_vaccinated&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Get total vaccinations for all countries and drop null vals by row</span>
+</span></span><span style=display:flex><span>  tv_raw <span style=color:#f92672>=</span> df[[<span style=color:#e6db74>&#34;location&#34;</span>, cumulative_val]]<span style=color:#f92672>.</span>copy()
+</span></span><span style=display:flex><span>  tv_raw<span style=color:#f92672>.</span>dropna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;index&#34;</span>, how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;any&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  countries <span style=color:#f92672>=</span> tv_raw<span style=color:#f92672>.</span>location<span style=color:#f92672>.</span>unique()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Create a dictionary where keys are countries and values are average daily vaccinations</span>
+</span></span><span style=display:flex><span>  dv_dict <span style=color:#f92672>=</span> {}
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> country <span style=color:#f92672>in</span> countries:
+</span></span><span style=display:flex><span>    tv_country <span style=color:#f92672>=</span> tv_raw[tv_raw[<span style=color:#e6db74>&#34;location&#34;</span>] <span style=color:#f92672>==</span> country]
+</span></span><span style=display:flex><span>    total_vac <span style=color:#f92672>=</span> tv_country[cumulative_val]<span style=color:#f92672>.</span>iloc[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Assume first date with any value (even 0 or NaN) provided is the day vaccinations began in that country</span>
+</span></span><span style=display:flex><span>    first_vac_date <span style=color:#f92672>=</span> df[df[<span style=color:#e6db74>&#34;location&#34;</span>] <span style=color:#f92672>==</span> country][<span style=color:#e6db74>&#34;date&#34;</span>]<span style=color:#f92672>.</span>iloc[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    fv_date_obj <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>strptime(first_vac_date, <span style=color:#e6db74>&#39;%Y-%m-</span><span style=color:#e6db74>%d</span><span style=color:#e6db74>&#39;</span>)
+</span></span><span style=display:flex><span>    today <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>today()<span style=color:#f92672>.</span>date()
+</span></span><span style=display:flex><span>    delta <span style=color:#f92672>=</span> today <span style=color:#f92672>-</span> fv_date_obj<span style=color:#f92672>.</span>date()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    dv_dict[country] <span style=color:#f92672>=</span> total_vac <span style=color:#f92672>/</span> delta<span style=color:#f92672>.</span>days
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> dv_dict
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Print the dictionary sorted by average daily doses administered</span>
+</span></span><span style=display:flex><span>dv_doses <span style=color:#f92672>=</span> get_daily_average(vaccine_df)
+</span></span><span style=display:flex><span>print(sorted(dv_doses<span style=color:#f92672>.</span>items(), key<span style=color:#f92672>=</span><span style=color:#66d9ef>lambda</span> item: item[<span style=color:#ae81ff>1</span>], reverse<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)[:<span style=color:#ae81ff>15</span>])
+</span></span></code></pre></div><pre><code>[('World', 2856593.6097560977), ('United States', 1006486.6285714286), ('China', 540266.6666666666), ('European Union', 386668.6219512195), ('India', 312657.7272727273), ('United Kingdom', 258618.0779220779), ('England', 217997.93506493507), ('Brazil', 188413.6511627907), ('Turkey', 180408.80434782608), ('Israel', 112081.50704225352), ('Morocco', 110461.12903225806), ('United Arab Emirates', 109875.9074074074), ('Germany', 93818.04761904762), ('Bangladesh', 86392.12121212122), ('France', 68231.31746031746)]
+</code></pre><p>So that&rsquo;s some heartening news given that I live in the US. I should&rsquo;ve dropped all rows that pertain to the &ldquo;World&rdquo; at large, but it&rsquo;s useful to have that as a sort of baseline metric (divide by number of countries, 101, to get the average countries average daily vaccination rate for a country).</p><p>The above is a function which creates a dictionary associating each country with the average daily number of vaccinations administered, measured as either the number of individual doses administered or as the number of people fully vaccinated.</p><h2 id=graphing-to-compare-across-a-subset-of-countries>Graphing to Compare Across a Subset of Countries</h2><p>Now let&rsquo;s write a function that allows us to graph the performance of multiple countries based on different vaccination rate metrics (i.e. raw doses adminsitered, doses administered per million, or people fully vaccinated&ndash;2 doses&ndash;per hundred). We&rsquo;ll start by comparing the per capita performance of the leading ten countries when we measured average number of doses administered per day. We assume the larger countries by population, like China, India, and the US, should have higher raw total doses administered, since they just have more people and a greater demand. It will be interesting to see how these massive countries compare when normalized for population.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>top_ten_items <span style=color:#f92672>=</span> sorted(dv_doses<span style=color:#f92672>.</span>items(), key<span style=color:#f92672>=</span><span style=color:#66d9ef>lambda</span> item: item[<span style=color:#ae81ff>1</span>], reverse<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)[<span style=color:#ae81ff>1</span>:<span style=color:#ae81ff>11</span>]
+</span></span><span style=display:flex><span>top_ten_countries <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> item <span style=color:#f92672>in</span> top_ten_items:
+</span></span><span style=display:flex><span>  top_ten_countries<span style=color:#f92672>.</span>append(item[<span style=color:#ae81ff>0</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>plot_combined_linegraph</span>(countries_arr, metric, ylabel, title, filename):
+</span></span><span style=display:flex><span>  <span style=color:#75715e># helper function to plot a combined linegraph of multiple countries by some metric in the vaccine_df</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>#   input is an array of country names</span>
+</span></span><span style=display:flex><span>  dv_df <span style=color:#f92672>=</span> vaccine_df[[<span style=color:#e6db74>&#34;location&#34;</span>, <span style=color:#e6db74>&#34;date&#34;</span>, metric]]<span style=color:#f92672>.</span>copy()
+</span></span><span style=display:flex><span>  dv_df<span style=color:#f92672>.</span>dropna(inplace<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;index&#34;</span>, how<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;any&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  fig, ax <span style=color:#f92672>=</span> plt<span style=color:#f92672>.</span>subplots(figsize<span style=color:#f92672>=</span>(<span style=color:#ae81ff>20</span>,<span style=color:#ae81ff>10</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> country <span style=color:#f92672>in</span> countries_arr:
+</span></span><span style=display:flex><span>    country_df <span style=color:#f92672>=</span> dv_df[dv_df[<span style=color:#e6db74>&#34;location&#34;</span>] <span style=color:#f92672>==</span> country]
+</span></span><span style=display:flex><span>    dates <span style=color:#f92672>=</span> country_df[<span style=color:#e6db74>&#34;date&#34;</span>]<span style=color:#f92672>.</span>values
+</span></span><span style=display:flex><span>    x <span style=color:#f92672>=</span> [datetime<span style=color:#f92672>.</span>strptime(d, <span style=color:#e6db74>&#39;%Y-%m-</span><span style=color:#e6db74>%d</span><span style=color:#e6db74>&#39;</span>)<span style=color:#f92672>.</span>date() <span style=color:#66d9ef>for</span> d <span style=color:#f92672>in</span> dates]
+</span></span><span style=display:flex><span>    y <span style=color:#f92672>=</span> country_df[metric]<span style=color:#f92672>.</span>values
+</span></span><span style=display:flex><span>    plt<span style=color:#f92672>.</span>plot(x, y, label<span style=color:#f92672>=</span>country)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Let&#39;s configure pyplot properly</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  formatter <span style=color:#f92672>=</span> mdates<span style=color:#f92672>.</span>DateFormatter(<span style=color:#e6db74>&#34;%Y-%m-</span><span style=color:#e6db74>%d</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>  ax<span style=color:#f92672>.</span>xaxis<span style=color:#f92672>.</span>set_major_formatter(formatter)
+</span></span><span style=display:flex><span>  locator <span style=color:#f92672>=</span> mdates<span style=color:#f92672>.</span>DayLocator()
+</span></span><span style=display:flex><span>  ax<span style=color:#f92672>.</span>xaxis<span style=color:#f92672>.</span>set_major_locator(locator)
+</span></span><span style=display:flex><span>  plt<span style=color:#f92672>.</span>xticks(rotation<span style=color:#f92672>=</span><span style=color:#ae81ff>45</span>, ha<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;right&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  plt<span style=color:#f92672>.</span>xlabel(<span style=color:#e6db74>&#34;Dates&#34;</span>)
+</span></span><span style=display:flex><span>  plt<span style=color:#f92672>.</span>ylabel(ylabel)
+</span></span><span style=display:flex><span>  plt<span style=color:#f92672>.</span>title(title)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Now display and download the graph</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  plt<span style=color:#f92672>.</span>legend()
+</span></span><span style=display:flex><span>  plt<span style=color:#f92672>.</span>show()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  full_path <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;./graphs/&#34;</span> <span style=color:#f92672>+</span> filename
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  fig<span style=color:#f92672>.</span>savefig(full_path, bbox_inches<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;tight&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>plot_combined_linegraph(top_ten_countries, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>,
+</span></span><span style=display:flex><span>                       ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Vaccine Doses Administered Daily&#34;</span>,
+</span></span><span style=display:flex><span>                       title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Vaccination Rate for Leading Countries&#34;</span>,
+</span></span><span style=display:flex><span>                       filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations.png&#34;</span>)
+</span></span><span style=display:flex><span>plot_combined_linegraph(top_ten_countries, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>,
+</span></span><span style=display:flex><span>                       ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Vaccine Doses Administered Daily per Million People&#34;</span>,
+</span></span><span style=display:flex><span>                       title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Per Capita Vaccination Rate for Leading Countries&#34;</span>,
+</span></span><span style=display:flex><span>                       filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations_per_million.png&#34;</span>)
+</span></span><span style=display:flex><span>plot_combined_linegraph(top_ten_countries, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;people_fully_vaccinated_per_hundred&#34;</span>,
+</span></span><span style=display:flex><span>                       ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of People Fully Vaccinated Daily per Hundred People&#34;</span>,
+</span></span><span style=display:flex><span>                       title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Full Vaccination Rate per Hundred People for Leading Countries&#34;</span>,
+</span></span><span style=display:flex><span>                       filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_full_vaccinations_per_hundred.png&#34;</span>)
+</span></span></code></pre></div><p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_11_0.png alt=png></p><p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_11_1.png alt=png></p><p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_11_2.png alt=png></p><p>Just to clarify, the countries being graphed above are the top ten when measured by the average number of doses administered in a day. When we compare the performance of countries in terms of how many vaccines they&rsquo;re able to administer we should always normalize for population. Larger countries by population, like the US or India, should ideally have more infrastructure and manpower available to deliver the vaccine at scale. What we end up seeing, however, is that the countries which were originally leaders in average number of doses delivered per day aren&rsquo;t actually delivering vaccines as efficiently as countries with smaller populations, and therefore lower raw doses delivered counts.</p><p>Israel is a small country by population when compared against the other countries in the top ten, but it is a leader in both raw counts of doses delivered per day and adjusted per capita rates. There&rsquo;s a couple explanations for this: the difference between how robust and efficient Israel&rsquo;s infrastructure is and it&rsquo;s size by population is huge and/or the infrastructure of large pop countries like India and the US is inefficient relative to their size. The latter is illustrated by the graph above, larger population countries don&rsquo;t compare well against smaller countries when measured using per capita rates. The former we can measure by graphing Israel against countries of a similar size by population (the k-nearest neighbors).</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># take Israel and it&#39;s top ten nearest neighbors by population for the latest year it was reported for Israel (2019)</span>
+</span></span><span style=display:flex><span>israel_pop <span style=color:#f92672>=</span> pop_df[pop_df[<span style=color:#e6db74>&#34;Country Name&#34;</span>] <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;Israel&#34;</span>][<span style=color:#e6db74>&#34;latest_available_population&#34;</span>]<span style=color:#f92672>.</span>item()
+</span></span><span style=display:flex><span>israel_neighbors <span style=color:#f92672>=</span> pop_df<span style=color:#f92672>.</span>iloc[(pop_df[<span style=color:#e6db74>&#34;latest_available_population&#34;</span>]<span style=color:#f92672>-</span>israel_pop)<span style=color:#f92672>.</span>abs()<span style=color:#f92672>.</span>argsort()[:<span style=color:#ae81ff>11</span>]][<span style=color:#e6db74>&#34;Country Name&#34;</span>]<span style=color:#f92672>.</span>to_numpy()
+</span></span><span style=display:flex><span><span style=color:#75715e># def plot_combined_linegraph(countries_arr, metric, ylabel, title, filename):</span>
+</span></span><span style=display:flex><span>plot_combined_linegraph(israel_neighbors, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations&#34;</span>,
+</span></span><span style=display:flex><span>                        ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Doses Administered&#34;</span>,
+</span></span><span style=display:flex><span>                        title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Doses Administered per Day for Israel and it&#39;s 10 Nearest Neighbors by Population&#34;</span>,
+</span></span><span style=display:flex><span>                        filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;israel_neighbors_daily_doses.png&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>plot_combined_linegraph(israel_neighbors, metric<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;daily_vaccinations_per_million&#34;</span>,
+</span></span><span style=display:flex><span>                        ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Number of Doses Administered per Million Citizens&#34;</span>,
+</span></span><span style=display:flex><span>                        title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Daily Doses Administered per Capita for Israel and it&#39;s 10 Nearest Neighbors by Population&#34;</span>,
+</span></span><span style=display:flex><span>                        filename<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;israel_neighbors_daily_doses_per_capita.png&#34;</span>)
+</span></span></code></pre></div><p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_13_0.png alt=png></p><p><img src=../COVID19Vaccinations_files/COVID19Vaccinations_13_1.png alt=png></p><p>I&rsquo;ll admit I did miss the fact that the UAE was also on both lists and is certainly a similar size by population as Israel. It does seem, however, that Israel and the UAE are far and away from their population neighbors in terms of vaccinations administered per day. It would seem that for their populations they certainly boast either more access to vaccine manufacturers/distributors, or the infrastructure to manufacture vaccines themselves.</p><h1 id=expanding-the-dataset>Expanding the Dataset</h1><p>To get a better idea of what factors impact the ability for a country to administer more vaccines per capita I need to compare vaccine distribution rates by other metrics pertaining to economic factors like GDP, government spend and national debt, and healthcare factors like healthcare spending, size in number of doctors and hospitals and ventilators and ICU capacity.</p><p>I&rsquo;m going to load in a couple more datasets which I&rsquo;ll need to join by some common key. Country code seems like a good bet, and an inner join so we only take countries tracked in both datasets.</p><p>I&rsquo;ll make a couple graphs to make sure the dataset is of good quality, then I can run some principal component analysis to see which features have the greatest correlation with daily_vaccinations and people_fully_vaccinated. I can then use this to generate a smaller dataset of principal features, split into a testing and training set and start projecting daily_vaccinations and people_fully_vaccinated and calculate which country is most likely to reach herd immunity within their borders first.</p><p>It&rsquo;s obvious that I need to include much more historical data to train this model on, so I&rsquo;ll have to find data pertaining to previous government-led vaccine administration programs.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Load in the global national debt dataset and pd.read_excel</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>rm <span style=color:#f92672>*.</span>dta
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>curl <span style=color:#f92672>-</span>o global_debt_stata<span style=color:#f92672>.</span>zip https:<span style=color:#f92672>//</span>www<span style=color:#f92672>.</span>imf<span style=color:#f92672>.</span>org<span style=color:#f92672>/</span>external<span style=color:#f92672>/</span>datamapper<span style=color:#f92672>/</span>GDD<span style=color:#f92672>/</span>GlobalDebtDatabase<span style=color:#f92672>.</span>zip
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>unzip global_debt_stata<span style=color:#f92672>.</span>zip
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>rm <span style=color:#f92672>*.</span>zip
+</span></span></code></pre></div><pre><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  517k  100  517k    0     0   239k      0  0:00:02  0:00:02 --:--:--  239k
 Archive:  global_debt_stata.zip
   inflating: Global Debt Database.dta  
-</code></pre>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>debt_df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>read_stata(<span style=color:#e6db74>&#34;Global Debt Database.dta&#34;</span>)
-print(debt_df<span style=color:#f92672>.</span>columns)
-print(debt_df<span style=color:#f92672>.</span>head())
-debt_df<span style=color:#f92672>.</span>to_csv(<span style=color:#e6db74>&#34;./data/global_debt.csv&#34;</span>)
-
-
-</code></pre></div><pre><code>Index(['ifscode', 'country', 'year', 'pvd_all', 'pvd_ls', 'hh_all', 'hh_ls',
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>debt_df <span style=color:#f92672>=</span> pd<span style=color:#f92672>.</span>read_stata(<span style=color:#e6db74>&#34;Global Debt Database.dta&#34;</span>)
+</span></span><span style=display:flex><span>print(debt_df<span style=color:#f92672>.</span>columns)
+</span></span><span style=display:flex><span>print(debt_df<span style=color:#f92672>.</span>head())
+</span></span><span style=display:flex><span>debt_df<span style=color:#f92672>.</span>to_csv(<span style=color:#e6db74>&#34;./data/global_debt.csv&#34;</span>)
+</span></span></code></pre></div><pre><code>Index(['ifscode', 'country', 'year', 'pvd_all', 'pvd_ls', 'hh_all', 'hh_ls',
        'nfc_all', 'nfc_ls', 'ps', 'nfps', 'gg', 'cg', 'ngdp'],
       dtype='object')
    ifscode        country    year    pvd_all     pvd_ls     hh_all      hh_ls  \
@@ -292,28 +210,5 @@ debt_df<span style=color:#f92672>.</span>to_csv(<span style=color:#e6db74>&#34;.
 2  47.683893  30.579209 NaN   NaN  72.525492  66.341449  368.027836  
 3  46.610066  30.222458 NaN   NaN  71.753219  64.602206  389.147698  
 4  48.329304  31.710837 NaN   NaN  73.568066  64.955715  390.276672  
-</code></pre>
-<h1 id=notes>Notes</h1>
-<p>Ideally the place I&rsquo;d like to get to with this is to incorporate some other datasets into this, calculate my own smoothed daily vaccination counts, then project future daily vaccination counts and try to predict which country will hit herd immunity first. I can then check my prediction against other peoples results and shop my projection model. I need to consider several regression models to use here, and do some dimensionality reduction.</p>
-<p>I also want to set up my own runtime environment in GCP with a Jupyter notebook frontend.</p>
-<h1 id=appendix>Appendix</h1>
-<p>Include code snippets and function definitions here. Have some basic documentation for helper functions. Ideally helper functions should all be moved into a utils.py modules file which is then imported in along with all the other packages.</p>
-</section>
-<div class=post-tags>
-<nav class="nav tags">
-<ul class=tags>
-<li><a href=/tags/data-science>data science</a></li>
-<li><a href=/tags/data-analytics>data analytics</a></li>
-<li><a href=/tags/covid-19>covid-19</a></li>
-</ul>
-</nav>
-</div>
-</article>
-</main>
-<footer>
-<hr><a class=soc href=https://github.com/teejas title=GitHub><i data-feather=github></i></a>|<a class=soc href=https://www.linkedin.com/in/tejas-siripurapu-7b7b81105/ title=LinkedIn><i data-feather=linkedin></i></a>|<a class=soc href=https://twitter.com/ojsimpsome/ title=Twitter><i data-feather=twitter></i></a>|<a class=soc href=https://www.instagram.com/tejas.siripurapu/ title=Instagram><i data-feather=instagram></i></a>|⚡️
-2021 © Athul | <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a>
-</footer>
-<script>feather.replace()</script></div>
-</body>
-</html>
+</code></pre><h1 id=notes>Notes</h1><p>Ideally the place I&rsquo;d like to get to with this is to incorporate some other datasets into this, calculate my own smoothed daily vaccination counts, then project future daily vaccination counts and try to predict which country will hit herd immunity first. I can then check my prediction against other peoples results and shop my projection model. I need to consider several regression models to use here, and do some dimensionality reduction.</p><p>I also want to set up my own runtime environment in GCP with a Jupyter notebook frontend.</p><h1 id=appendix>Appendix</h1><p>Include code snippets and function definitions here. Have some basic documentation for helper functions. Ideally helper functions should all be moved into a utils.py modules file which is then imported in along with all the other packages.</p></section><div class=post-tags><nav class="nav tags"><ul class=tags><li><a href=/tags/data-science>data science</a></li><li><a href=/tags/data-analytics>data analytics</a></li><li><a href=/tags/covid-19>covid-19</a></li></ul></nav></div></article></main><footer><hr><a class=soc href=https://github.com/teejas title=GitHub><i data-feather=github></i></a>|<a class=soc href=https://www.linkedin.com/in/tejas-siripurapu-7b7b81105/ title=LinkedIn><i data-feather=linkedin></i></a>|<a class=soc href=https://twitter.com/ojsimpsome/ title=Twitter><i data-feather=twitter></i></a>|<a class=soc href=https://www.instagram.com/tejas.siripurapu/ title=Instagram><i data-feather=instagram></i></a>|⚡️
+2022 © Athul | <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a></footer><script>feather.replace()</script></div></body></html>
