@@ -10,10 +10,6 @@ tags:
   - music discovery
 ---
 
-## Introduction:
-
-Since artist compensation is dependent on the number of streams an artist can generate and the barrier of entry into music, in terms of distribution, is much lower, the entire pool of music available for streaming has become oversaturated with subpar songs and, more generally, the amount of readily streamable music is increasing rapidly. Building improved music discovery services and recommendation systems would solve these issues.
-
 ## Artist Compensation and Counting Streams
 
 Firstly, the current model for compensating artists (adopted by Spotify and Apple Music, the two largest music streaming service providers) is entirely dependent on the number of streams an artist can generate. Therefore, in the interest of making more of their product, artists have started to put out albums with high numbers of individual tracks. “Releases by Migos (Culture II, 24 tracks), Rae Sremmurd (SR3MM, 27 tracks), and Drake (Views, 20 tracks; More Life, 22; Scorpion, 25) don't encourage being heard in full on one sitting, in fact, they actively discourage repeat listens. They're intended to be cherry-picked for playlist consumption because it results in bigger streams and therefore higher chart positions.” ([Triple-J](https://www.abc.net.au/triplej/news/musicnews/what-is-an-album-in-2018/9958448#:~:text=If%20a%20product%20contains%20four,this%20as%20the%20product%20type))

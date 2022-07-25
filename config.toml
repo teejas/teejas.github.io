@@ -50,7 +50,7 @@ url = "https://juko.tejas.wtf"
 weight = 2
 
 [[menu.main]]
-name = "All Posts"
+name = "Posts"
 url = "/posts"
 weight = 3
 
