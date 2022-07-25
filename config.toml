@@ -45,21 +45,26 @@ url = "/"
 weight = 1
 
 [[menu.main]]
+name = "Juko"
+url = "https://juko.tejas.wtf"
+weight = 2
+
+[[menu.main]]
 name = "All Posts"
 url = "/posts"
-weight = 2
+weight = 3
 
 [[menu.main]]
 name = "Notebooks"
 url = "/notebooks"
-weight = 3
+weight = 4
 
 [[menu.main]]
 name = "About"
 url = "/about"
-weight = 4
+weight = 5
 
 [[menu.main]]
 name = "Tags"
 url = "/tags"
-weight = 5
+weight = 6
