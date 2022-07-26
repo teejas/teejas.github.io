@@ -14,9 +14,7 @@ paginate=5 # articles per page
 	mode="auto" # color-mode → light,dark or auto
 	useCDN=false # don't use CDNs for fonts and icons, instead serve them locally.
 	subtitle = "Writing from a [Coder](https://github.com/teejas)"
-	mainSections:
-	- posts
-	- notebooks
+	mainSections = ['notebooks', 'posts']
 
 
 # Social Tags
