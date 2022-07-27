@@ -14,9 +14,9 @@ tags:
 # Table of Contents
 1. [Introduction to Juko](#intro)
 2. [Juko V1: The Original Idea](#jukooriginal)
-3. [Juko Reimagined: Interactive Music Discovery Sessions](#jukoreimagined)<br/> 
-	a. [Design: User Story + Figma](#design)<br/>
-	b. [Building: Django, React, Docker, GHA](#building)<br/>
+3. [Juko Reimagined: Interactive Music Discovery Sessions](#jukoreimagined)<br/> /
+	a. [Design: User Story + Figma](#design)<br/>/
+	b. [Building: Django, React, Docker, GHA](#building)<br/>/
 	c. [Deploying: GKE, Kubernetes, Kustomize](#deploying)<br/>
 4. [Conclusion](#conclusion)
 5. [Appendix](#appendix)
