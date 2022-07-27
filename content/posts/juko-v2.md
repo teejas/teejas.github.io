@@ -13,11 +13,11 @@ tags:
 
 # Table of Contents
 1. [Introduction to Juko](#introduction-to-juko)
-2. [Juko V1: The Original Idea](#juko-v1:-the-original-idea)
-3. [Juko Reimagined: Interactive Music Discovery Sessions](#juko-reimagined:-interactive-music-discovery-sessions)<br>\n</br>
-	a. [Design: User Story + Figma](#design)<br>\n</br>
-	b. [Building: Django, React, Docker, GHA](#building)<br>\n</br>
-	c. [Deploying: GKE, Kubernetes, Kustomize](#deploying)<br>\n</br>
+2. [Juko V1: The Original Idea](#juko-v1-the-original-idea)
+3. [Juko Reimagined: Interactive Music Discovery Sessions](#juko-reimagined-interactive-music-discovery-sessions)<br>
+	a. [Design: User Story + Figma](#design)<br>
+	b. [Building: Django, React, Docker, GHA](#building)<br>
+	c. [Deploying: GKE, Kubernetes, Kustomize](#deploying)<br>
 4. [Conclusion](#conclusion)
 5. [Appendix](#appendix)
 
