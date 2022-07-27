@@ -1,7 +1,7 @@
 ---
 title: 'Juko V2'
 date: 2022-07-24
-draft: false
+draft: true
 tags:
   - music industry
   - music services
