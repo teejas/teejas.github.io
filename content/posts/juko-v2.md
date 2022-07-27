@@ -13,7 +13,7 @@ tags:
 
 # Table of Contents
 1. [Introduction to Juko](#introduction-to-juko)
-2. [Juko V1: The Original Idea](#juko-v-the-original-idea)
+2. [Juko V1: Discovery on-the-go](#juko-v1-discovery-on-the-go)
 3. [Juko Reimagined: Interactive Music Discovery Sessions](#juko-reimagined-interactive-music-discovery-sessions)  
 	a. [Design: User Story + Figma](#design)  
 	b. [Building: Django, React, Docker, GHA](#building)  
@@ -23,13 +23,11 @@ tags:
 
 
 # Introduction to Juko
-<a name="intro"></a> 
 
 Juko started out as a "startup idea" after I graduated from college (Dec 2019) and was struggling to find work at the start of the pandemic (a.k.a. the pando). I use the quotes because I'm not sure I ever seriously believed this idea had the legs to become anything substantial. The reason I worked on the idea at all, aside from needing something to fill my time between interviews and rejections, was because I believed it was solving a problem for me: I couldn't be bothered to skip through songs while biking, but I still wanted to find new music while biking. So in the interest of making my life easier, or so I believed, I built a mobile app using React Native which would take a user's playlist and generate recommendations from it. Then playback, which would happen in the app itself, would skip songs every 30 seconds by default. If the user interacted with the app to "Like" or "Favorite" the song, it would cancel the default skip allowing the user to listen to the song in its entirety. It was an over-engineered mess which was meant to solve an entirely made-up personal pain point, but it was mine.
 
 
 # Juko V1: Discovery on-the-go
-<a name="jukooriginal"></a>
 
 The original vision for Juko, as stated before, was to provide a way to discover music while it wasn't convenient to interact with the Spotify app (or whatever streaming service you use). For example, when you were riding a bike. By skipping songs by default the user didn't have to interact at all until they came across a song they liked. Furthermore, recommendations learned from songs you liked. There are a couple obvious flaws there. Firstly, the user would inevitably **have** to interact with the app assuming they ever came across a song they liked. Secondly, as recommendations got better and the user was provided more songs they would want to hear entirely they'd have to interact more with the app meaning the app became more cumbersome as it became more useful. Not a great model.
 
@@ -41,7 +39,6 @@ The idea to implement a solution to this problem in another mobile app was flawe
 
 
 # Juko Reimagined: Interactive Music Discovery Sessions 
-<a name="jukoreimagined"></a>
 
 I decided to revisit Juko when someone who helped me a lot with the original iteration passed, a few years after implementing the first version. I realize that a failure of the original idea was the existence of a mobile app at all, it did little to address the pain point I had concerning hands-free music discovery. But working on that original idea I found something out, music discovery didn't have to be hands-free to be enjoyable. I was having a blast kicking up the app in the Expo demo environment and just getting recommendations fed to me in 30 second snippets until I liked something. I'd click "Like" to improve recommendations and isntantly start building a playlist of liked songs from the session. I was getting a lot more use out of Juko as a sort of session manager for music discovery. I could track songs I liked in an individual session, and everytime I sat down at the computer it felt like I was starting fresh. Future sessions weren't contingent on previous ones at all, so recommendations felt new (to begin with) every time.
 
@@ -51,7 +48,6 @@ Building this graph as a computing model that actually relates tracks on a set o
 
 So that's novel discovery taken care of, or at least a spoof of it. The next thing to tackle is the interface. Now user interaction is required and encouraged. But it should still be simple. Listening is the key here, you should sit back, listen to the snippets, only have to hit a key to indicate approval ("Like" a track), and then get a summary of your listening session at the end. Maybe we can consider adding more inputs for the user--I did think a kind of superuser interface would be cool where the user can inject different parameters into the backend to influence the recommendations comming out from Spotify (i.e. increase speechiness of recommended tracks)--but we'll start by keeping it simple (stupid).
 
-<a name="design"></a>
 ## Design
 
 ### User story
@@ -62,7 +58,7 @@ From the perspective of someone looking to discover new music:
 
 Using Figma, share some screenshots here
 
-<a name="building"></a>
+
 ## Building
 
 ### Backend with Django
@@ -79,7 +75,7 @@ Using Figma, share some screenshots here
 
 There is a simple Github Actions workflow (identical between `walkman-frontend` and `walkman-backend`) which builds and pushes a new image to Dockerhub with the tag `tj1997/walkman-{frontend, backend}:latest` on every push/merge to the `main` branch of the respective repo.
 
-<a name="deploying"></a>
+
 ## Deploying
 
 ### GKE Autopilot
@@ -95,10 +91,9 @@ The Kubernetes resources for Juko (such as the deployment, service, and ingress 
 Changes can be easily deployed by building a new image with the tag `:latest` and deleting the frontend and/or backend pod to force a new deployment with the latest image.
 
 
-<a name="conclusion"></a>
 # Conclusion 
 
-<a name="appendix"></a>
+
 # Appendix 
 
 - [Juko-V2 Web App](https://juko.tejas.wtf/)
