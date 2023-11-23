@@ -34,10 +34,10 @@ name = "Twitter"
 icon = "twitter"
 url = "https://twitter.com/ojsimpsome/"
 
-[[params.social]]
-name = "Instagram"
-icon = "instagram"
-url = "https://www.instagram.com/tejas.siripurapu/"
+# [[params.social]]
+# name = "Instagram"
+# icon = "instagram"
+# url = ""
 
 # Main menu Items
 
