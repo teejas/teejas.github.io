@@ -11,3 +11,7 @@ tags:
   - juko
 ---
 
+# Steps
+1. Set up autopilot cluster
+2. Set up external-dns for tejas.wtf domain
+3. Install apps
